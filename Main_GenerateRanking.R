@@ -2,7 +2,7 @@
 library(dplyr)
 source("Utils.R")
 dataPointsFor1Quarter = 262/4 #minus weekends
-quarters <- list(1,2,3,4,6,8,12,20) 
+quarters <- list(1,2,3,4,5,6,8,12,20) 
 productName="S&P100" # or S&P500
 nameOfTheFileWithStockData = "S&P100TimeIndex.csv"
 
