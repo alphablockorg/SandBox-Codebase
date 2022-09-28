@@ -231,14 +231,14 @@ SummaryCode = function(PortfolioValuesDataSet, BenchmarkValuesDataSet, Portfolio
       portfolio2=data.frame(matrix(NA,nrow=nrow(temp),ncol=2))
       portfolio2[,1]<-index(temp)
       portfolio2[,2]=as.numeric(temp[,1])
-      xxx=portfolio2[,c(1,2)] 
+      portfolio_values_per_period = portfolio2[,c(1,2)] 
       maxdrop1=10
-      if(mm == length(your.numbers) && length(your.numbers)> 3) daport=drawdown.analysis(xxx,20)  else daport=drawdown.analysis(xxx,2)
+      if(mm == length(your.numbers) && length(your.numbers)> 3) daport=drawdown.analysis(portfolio_values_per_period,20)  else daport=drawdown.analysis(portfolio_values_per_period,2)
       portfolio2=data.frame(matrix(NA,nrow=nrow(temp),ncol=2))
       portfolio2[,1]<-index(temp)
       portfolio2[,2]=as.numeric(temp[,2])
-      xxx=portfolio2[,c(1,2)] 
-      dabench=drawdown.analysis(xxx,2) 
+      benchmark_values_per_period = portfolio2[,c(1,2)] 
+      dabench=drawdown.analysis(benchmark_values_per_period,2) 
       matbench=dabench[[1]]
       matport=daport[[1]]
       

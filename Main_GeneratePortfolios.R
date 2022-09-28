@@ -17,30 +17,64 @@ source("Utils.R")
 source("Summary Code MPT Stats Functions.R")
 source("Drawdown Function.R")
 
-workingWith = "S&P100" # or S&P500
+#!!! choose between S&P100, S&P500 or Crypto10
+#!! Only change Product name in workingWith
+workingWith = "S&P100"
 
-#the name of the csv file containing the Stocks Time Index data
-#"S&P100TimeIndex.csv" or "S&P500TimeIndex.csv"
-symbolsTimeIndexfileName = "S&P100TimeIndex.csv"
-
-#the name of the csv file containing the Benchmark Time Index data
-# "S&P100_Benchmark_Index.csv" or "S&P500Benchmark.csv"
-benchmarkTimeIndexFileName = "S&P100_Benchmark_Index.csv"
-
-#for naming purpose only , keep it suggestive to benchmark name
-benchmark = "S&P100_Index"
-
-#must be 100 for S&P 100 and 500 for S&P 500
-#this will influence the starting dates of the Portfolios, the P will only start when the input dataset with EOD data has values for all 100 symbols
-minNumberOfSymbols = 100
-
-#choose between 1,2,3,4,5,6,8,12,20
-# where 1 means 1 quarter ranking
-rankingToUse = c(1,2,3,4,5,6,8,12,20)
-
-#choose between Value, Core, Growth, VG, ALL
+#!!! choose between Value, Core, Growth, VG, ALL
 # VG means Value and Growth stocks , ALL means all stocks
-type="Growth"
+type="Core"
+
+# measures are in quarters
+rankingToUse = 12 #c(1,2,3,4,5,6,8,12,20)
+
+#---------------------------------- PARAMETERS SETUP -------------------------------------------------------
+if(workingWith == "S&P100")
+{
+    #the name of the csv file containing the Stocks Time Index data
+    symbolsTimeIndexfileName = "S&P100TimeIndex.csv"
+    
+    #the name of the csv file containing the Benchmark Time Index data
+    benchmarkTimeIndexFileName = "S&P100_Benchmark_Index.csv"
+    
+    #for naming purpose only , keep it suggestive to benchmark name
+    benchmark = "S&P100_Index"
+    
+    #must be 100 for S&P 100 and 500 for S&P 500
+    #this will influence the starting dates of the Portfolios, the P will only start when the input dataset with EOD data has values for all 100 symbols
+    minNumberOfSymbols = 100
+
+
+}else if(workingWith == "S&P500"){
+  #the name of the csv file containing the Stocks Time Index data
+  symbolsTimeIndexfileName = "S&P500TimeIndex.csv"
+  
+  #the name of the csv file containing the Benchmark Time Index data
+  benchmarkTimeIndexFileName = "S&P500Benchmark.csv"
+  
+  #for naming purpose only , keep it suggestive to benchmark name
+  benchmark = "S&P500_Index"
+  
+  minNumberOfSymbols = 500
+
+  }else{
+    #the name of the csv file containing the Stocks Time Index data
+    symbolsTimeIndexfileName = "Crypto10TimeIndex.csv"
+    
+    #the name of the csv file containing the Benchmark Time Index data
+    benchmarkTimeIndexFileName = "Crypto10_Benchmark_Index.csv"
+    
+    #for naming purpose only , keep it suggestive to benchmark name
+    benchmark = "Crypto10_Index"
+    
+    if(type == "ALL"){minNumberOfSymbols = 10}else{ minNumberOfSymbols = 9}
+    
+    # measures are in quarters
+    rankingToUse = c(1,2,3,4)
+}
+
+#---------------------------------- Generate Portfolios and Stats -------------------------------------------------------
+
 for(i in rankingToUse)
 {
   

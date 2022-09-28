@@ -126,6 +126,14 @@ getRankingFileName = function(rankingToUse, workingWith)
             "Q12" = "RankingsS&P500/Q12_Ranking_S&P500.csv",
             "Q20" = "RankingsS&P500/Q20_Ranking_S&P500.csv"
     ) 
+  }else  if(workingWith == "Crypto10"){
+    switch (rankingToUse,
+            "Q1" = "RankingsCrypto10/Q1_Ranking_Crypto10.csv",
+            "Q2" = "RankingsCrypto10/Q2_Ranking_Crypto10.csv", 
+            "Q3" = "RankingsCrypto10/Q3_Ranking_Crypto10.csv", 
+            "Q4" = "RankingsCrypto10/Q4_Ranking_Crypto10.csv", 
+           
+    ) 
   }else {
     stop("Must input a valid name in workingWith valiable!")
   }
