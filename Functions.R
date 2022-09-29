@@ -187,16 +187,17 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
               
             
             
-            
+            last_column <- dim(temp)[2]
               if(i == 1)
               {
-                average_Summary <- rowMeans(temp, na.rm=TRUE)
+                average_Summary <- temp[,last_column]  #rowMeans(temp, na.rm=TRUE)
                 average_Summary <- as.matrix(average_Summary)
-                colnames(average_Summary) <- colnames(temp[dim(temp)[2]])
+                rownames(average_Summary) <- rownames(temp)
+                colnames(average_Summary) <- colnames(temp[last_column])
               }else{
                   col_names <- colnames(average_Summary)
-                  average_Summary <- cbind(average_Summary, rowMeans(temp, na.rm=TRUE))
-                  colnames(average_Summary) <- c(col_names, colnames(temp[dim(temp)[2]]))
+                  average_Summary <- cbind(average_Summary, temp[,last_column])  #cbind(average_Summary, rowMeans(temp, na.rm=TRUE))
+                  colnames(average_Summary) <- c(col_names, colnames(temp[last_column]))
                 }
                 
               
