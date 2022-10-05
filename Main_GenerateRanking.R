@@ -4,14 +4,14 @@ source("Utils.R")
 
 #choose between S&P100, S&P500 or Crypto10
 #!! Only change Product name
-productName = "S&P100"
+workingWith = "Crypto10"
 
 
-if(productName == "S&P100" || productName == "S&P500")
+if(workingWith == "S&P100" || workingWith == "S&P500")
 {
   dataPointsFor1Quarter = 262/4 #minus weekends
   quarters <- list(1,2,3,4,5,6,8,12,20) 
-  if(productName == "S&P100")
+  if(workingWith == "S&P100")
   {
     nameOfTheFileWithStockData = "S&P100TimeIndex.csv"
   }else{
@@ -34,7 +34,7 @@ dataSet <- as.data.frame(dataSet)
 
 for(quarter in quarters)
 {
-   generateRanking(dataSet, quarter, dataPointsFor1Quarter, fileNameRanking, fileNameReturns, productName)
+   generateRanking(dataSet, quarter, dataPointsFor1Quarter, fileNameRanking, fileNameReturns, workingWith)
 }
 #period measured in quarters
 

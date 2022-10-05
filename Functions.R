@@ -1,7 +1,8 @@
+source("Utils.R")
 #---------------------- Generate Portfolios and Summary Tables --------------
 GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
                                     rankingFilesName, rankNameForOutputFileNotations,
-                                    folder, folderMain, type) 
+                                    folder, folderMain, type, workingWith, startPortfoliosEvery) 
 {
   
   folder <- paste0(folderMain,folder,"/")
@@ -31,9 +32,17 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
       #generates a vector of starting dates and End dates for Portfolio generation
      if( add.month(as.Date(date),1) < as.Date(rankingDataset[dim(rankingDataset)[1] -250*run_for_years,1]))
        {
-          fromDate <-  seq(as.Date(date),as.Date(rankingDataset[dim(rankingDataset)[1] -250*run_for_years,1]), by = "month")
-          toDate <- add.year(add.day(fromDate,1), run_for_years)
-          
+         if(startPortfoliosEvery == "Month")
+         { 
+            #this will generate Portfolios starting every month
+            fromDate <-  seq(as.Date(date),as.Date(rankingDataset[dim(rankingDataset)[1] -250*run_for_years,1]), by = "month")
+            toDate <- add.year(add.day(fromDate,1), run_for_years)
+         }else{
+           #this will generate Portfolios starting every day
+           fromDate <-  seq(as.Date(date),as.Date(rankingDataset[dim(rankingDataset)[1] -250*run_for_years,1]), by = "day")
+           toDate <- add.year(add.day(fromDate,1), run_for_years)
+         }  
+       
           fromDate <- as.character(fromDate)
           toDate <- as.character(toDate)
           
@@ -63,7 +72,7 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
               }
               
               benchmarkName = paste0(fromDate[i],"_to_", toDate[i],"_",benchmark)
-              benchmarkDataset_subset <-  benchmarkDataset[benchmarkDataset$Index >= fromDate[i],]
+              benchmarkDataset_subset <-  benchmarkDataset[benchmarkDataset$Index >= fromDate[i] & benchmarkDataset$Index <= toDate[i],]
               benchmarkDataset_subset$Index <- as.Date(benchmarkDataset_subset$Index)
               #write.csv(benchmarkDataset_subset, paste0(benchmarkName,".csv"))
               #View(benchmarkDataset_subset)
@@ -96,9 +105,15 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
              
              if(toupper(type) == "ALL")
                {
-                value_weight = 40
-                growth_weight = 40
-                portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                  value_weight = 40
+                  growth_weight = 40
+                  if(workingWith == "Crypto10")
+                  {
+                    value_weight = 20
+                    growth_weight = 20
+                  }
+             
+                   portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
                                                                                                   value_symbols, 
                                                                                                   value_weight,
                                                                                                   core_symbols, 
@@ -129,6 +144,11 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
               #just for  summary code purpose...
               colnames(portfolioValues) <- c("Index", "TotalValue", "RemainingValue", "SymbolsValue")
               
+              if(workingWith == "Crypto10")
+              {
+                #crypto offers 24/7 tranding. The Portfolios run in weekend but the Crypo10Index doesn't, so we will fill in the gaps with Friday data. 
+                benchmarkDataset_subset <- FillGapsInTimeIndex(portfolioValues, benchmarkDataset_subset)
+              }
               #MPT stats code generator
               summary =  SummaryCode(portfolioValues, benchmarkDataset_subset,portfolioName , benchmarkName, folder)
               
@@ -214,6 +234,8 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
     
   
 }
+
+
 
 
 #----------------------Generate Portfolio Equal Weighted ----------
@@ -550,114 +572,33 @@ GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols = function(fromDa
   return(portfolioDailyReturn)
 }
 
-#----------------------Generate Portfolio Mcap Weighted ----------
-GeneratePortfolioMcapWeighted = function(fromDate, toDate, 
-                                          symbolGuidList, 
-                                          mcapDs,
-                                          timeIndexFileName, 
-                                          fileAppendix)
+
+
+FillGapsInTimeIndex = function(portfolioValues, benchmarkDataset_subset)
 {
+  # format the Date column
+  portfolioValues$Index <- as.Date(portfolioValues$Index)
   
-  # ---------------Extract price ------------------------------------------------------------
+  joinDS <- portfolioValues  %>% left_join(benchmarkDataset_subset)
   
-  symbolGuidList_inFile <- ""
-  fileTimeIndexValue <- data.frame(read.csv(file = timeIndexFileName, sep=",",header=TRUE,stringsAsFactors=F, fileEncoding="utf-8", check.names=FALSE))
-  #get stocks EOD data for the interval needed to run the Portfolio
-  symbolsTimeIndexValues <- fileTimeIndexValue[fileTimeIndexValue$Date >= fromDate & fileTimeIndexValue$Date <= toDate ,]
-  #column rearange
-  symbolGuidList_inFile <- colnames(symbolsTimeIndexValues)[2:dim(symbolsTimeIndexValues)[2]]
-  symbolGuidList_inFile<- na.omit(symbolGuidList_inFile)
-  
-  if( stringr::str_detect(fileAppendix , "Crypto10") )
+  for(i in seq(1, dim(joinDS)[1],1))
   {
-      colnames(symbolsTimeIndexValues) <- c("Date",  stringr::str_replace_all(colnames(symbolsTimeIndexValues)[2:dim(symbolsTimeIndexValues)[2]], "[.]", "-") )
-  }
-  
-  
-  #----------------Create the table of Symbols, their weight, portfolioSymbol.Value and number of units-------------------------------------------------------------------------------------------
-  
-  
-  # vectorize assign, get and exists functions
-  assign_hash <- Vectorize(assign, vectorize.args = c("x", "value"))
-  get_hash <- Vectorize(get, vectorize.args = "x")
-  exists_hash <- Vectorize(exists, vectorize.args = "x")
-  
-  #----------------Determine each symbol Weight and UnitsFraction ------------------
-  #determine one symbol weight relative to the number of symbols that are going to be part of the P
- 
-  mcap_sum =sum(as.numeric(mcapDs[,"mcap"]))
- 
-  mcapDs<- cbind(mcapDs, NA, NA, NA, NA)
-  colnames(mcapDs) <- c(colnames(mcapDs[c(1,2)]), "Weight","SymbolValueAtStartDate", "UnitsFraction","PortfolioSymbolsValue" )
-  
-  mcapDs$Weight <-  (mcapDs[,"mcap"]/mcap_sum) *100
-  
-  
-  #the UnitFraction is calculated at the begining of the P so that is weighted based on Mcap at the Start Date of the Portfolio and will not change
-  startPortfolioDate = firstRowWithEnoughSymbols(result , length(symbolGuidList))
-  
-  startDateValues <- symbolsTimeIndexValues[ symbolsTimeIndexValues$Date == startPortfolioDate,]
-  
-  #get the data only for symbols given as input in function
- 
-  for(i in colnames(startDateValues)[-1])
-  {
-    mcapDs[mcapDs$symbolsList == i, "SymbolValueAtStartDate"] = startDateValues[,i]
-  }
-  
-  mcapDs$UnitsFraction = mcapDs$Weight/mcapDs$SymbolValueAtStartDate
-  mcapDs$PortfolioSymbolsValue = mcapDs$UnitsFraction *mcapDs$SymbolValueAtStartDate
-  
- 
-  #----------------Create Portfolio Values-------------------------------------------------------------------------------------------
-  
-  portfolioDailyReturn <- matrix(ncol = 4)
-  previousPortfolioValue = 0.0
-  symbolUnitsFraction = 0.0
-  
-  colnames(portfolioDailyReturn)=c( "Date","DailyReturn", "TotalValue", "Index")
-  
-  symbolsTimeIndexValues <- symbolsTimeIndexValues[symbolsTimeIndexValues$Date >= startPortfolioDate, ]
-  
-  rows = length(symbolsTimeIndexValues[,1])
-  columns = length(symbolsTimeIndexValues[1,])
-  if(rows > 0)
-  {
-    
-    for(i in seq(1,rows,1))  
+    #case 1 : first row is NA
+    if(is.na(joinDS[i,5]) && i == 1)
     {
-      suma = 0.0  # here will keep the sum of Symbols for each row(day).
-      
-      for(j in seq(1,columns,1))
+      j=1
+      while(is.na(joinDS[j,5]))
       {
-        if(j>1 && colnames(symbolsTimeIndexValues[j]) %in% symbolGuidList) # needed for dataservice -> && (typeof(symbolsTimeIndexValues[i,j]) == "character") # take only erery second element to be added
-        {
-          symbolUnitsFraction = mcapDs[mcapDs$symbolsList == colnames(symbolsTimeIndexValues[j]) , "UnitsFraction"] 
-          if(!is.na(symbolsTimeIndexValues[i,j]))
-          {
-            suma = suma + as.double(symbolsTimeIndexValues[i,j])* symbolUnitsFraction
-          }
-        }
+        j = j+1
       }
-      #get Portfolio initial value
-      if(i == 1)
-      {
-        previousPortfolioValue = suma
-      }
-      
-      
-      dailyReturn <- (suma-previousPortfolioValue)/previousPortfolioValue*100
-      previousPortfolioValue <- suma
-      if(!is.na(dailyReturn))
-      {
-        portfolioDailyReturn<-rbind(portfolioDailyReturn, c( symbolsTimeIndexValues[i,1], formatC(as.numeric(dailyReturn), digits = 12, format = "f") , formatC(as.numeric(suma), digits = 12, format = "f"), convertDateToIndex(symbolsTimeIndexValues[i,1] )))
-      }
+      joinDS[i,5] <- joinDS[j,5]
     }
+    
+    #case 2 : finds NA in timeseries
+    
+    if(is.na(joinDS[i,5])){joinDS[i,5] <- joinDS[i-1,5]}
   }
   
-  
-  portfolioDailyReturn<-na.omit(portfolioDailyReturn)
-  
-  return(portfolioDailyReturn)
-  
+  benchmarkValues <- joinDS[,c(1,5)]
+  return(benchmarkValues)
 }

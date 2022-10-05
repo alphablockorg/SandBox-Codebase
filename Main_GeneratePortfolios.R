@@ -19,14 +19,14 @@ source("Drawdown Function.R")
 
 #!!! choose between S&P100, S&P500 or Crypto10
 #!! Only change Product name in workingWith
-workingWith = "S&P100"
+workingWith = "Crypto10"
 
 #!!! choose between Value, Core, Growth, VG, ALL
 # VG means Value and Growth stocks , ALL means all stocks
-type="Core"
+type="ALL"  #!!!! In Case of Crypto10 - run only ALL
 
 # measures are in quarters
-rankingToUse = 12 #c(1,2,3,4,5,6,8,12,20)
+rankingToUse = c(1,2,3,4,5,6,8,12,20)
 
 #---------------------------------- PARAMETERS SETUP -------------------------------------------------------
 if(workingWith == "S&P100")
@@ -67,8 +67,10 @@ if(workingWith == "S&P100")
     #for naming purpose only , keep it suggestive to benchmark name
     benchmark = "Crypto10_Index"
     
-    if(type == "ALL"){minNumberOfSymbols = 10}else{ minNumberOfSymbols = 9}
+    #if(type == "ALL"){minNumberOfSymbols = 10}else{ minNumberOfSymbols = 9}
     
+    type = "ALL" 
+    minNumberOfSymbols = 10
     # measures are in quarters
     rankingToUse = c(1,2,3,4)
 }
@@ -85,8 +87,13 @@ for(i in rankingToUse)
   folder = paste0("Q",i)
   folderMain = paste0(workingWith,"_",type)
   
-  
-  GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
+  if(workingWith != "Crypto10"){
+    GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
+                            rankingFilesName, rankNameForOutputFileNotations,
+                            folder, folderMain, type , "Month") 
+  }else{
+    GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
                           rankingFilesName, rankNameForOutputFileNotations,
-                          folder, folderMain, type) 
+                          folder, folderMain, type, workingWith, "Day") 
+  }
 }
