@@ -90,7 +90,7 @@ for(i in rankingToUse)
   if(workingWith != "Crypto10"){
     GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
                             rankingFilesName, rankNameForOutputFileNotations,
-                            folder, folderMain, type , "Month") 
+                            folder, folderMain, type ,workingWith, "Month") 
   }else{
     GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
                           rankingFilesName, rankNameForOutputFileNotations,
