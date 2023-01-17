@@ -50,7 +50,7 @@ if(workingWith == "S&P100")
   symbolsTimeIndexfileName = "S&P500TimeIndex.csv"
   
   #the name of the csv file containing the Benchmark Time Index data
-  benchmarkTimeIndexFileName = "S&P500Benchmark.csv"
+  benchmarkTimeIndexFileName = "S&P500_Benchmark_Index"
   
   #for naming purpose only , keep it suggestive to benchmark name
   benchmark = "S&P500_Index"

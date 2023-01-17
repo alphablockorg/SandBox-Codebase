@@ -3,11 +3,6 @@ library(lubridate)
 convertDateToIndex = function(date)
 {
   
-  #Tralio code for creating an Index out of Date uses year as reference date : {1/1/0001 12:00:00 AM}
-  # R framework suports Date value starting with 1970-01-01
-  #In order to duplicate the code into generating a valid Index for Tralio and using the LoadReferencePointByIndex functions
-  # I calculated the seconds from 1/1/0001 to 1970-01-01 and adding them to the calculation of the index
-  
   date1 = as.Date(as.POSIXlt(date, tz= "EET"), tz= "GMT")
   date2 <- as.Date("1970-01-01")   # this will remain the same date time
   
@@ -20,9 +15,6 @@ convertDateToIndex = function(date)
   return (index)
   
 }
-
-#convertDateToIndex("2011-09-21")
-
 
 convertFromIndexToDate = function(index)
 {
@@ -92,6 +84,18 @@ firstRowWithEnoughSymbols = function( dataSet, nrOfSymbols)
   return(as.character( as.Date(dataSet[i,1],format='%Y-%m-%d')) )
 }
 
+elapsed.months <- function(end_date, start_date) {
+  ed <- as.POSIXlt(end_date)
+  sd <- as.POSIXlt(start_date)
+  12 * (ed$year - sd$year) + (ed$mon - sd$mon)
+}
+
+elapsed.days <- function(end_date, start_date) {
+  ed <- as.POSIXlt(end_date)
+  sd <- as.POSIXlt(start_date)
+  return(difftime(sd,ed,units = c("days")))
+}
+
 createIfFolderDontExists = function(folderName)
 {
   if (!file.exists(folderName)){
@@ -101,39 +105,10 @@ createIfFolderDontExists = function(folderName)
 
 getRankingFileName = function(rankingToUse, workingWith)
 {
-  if(workingWith == "S&P100")
+  if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Ind30" || workingWith == "Crypto10")
   {
-    switch (rankingToUse,
-            "Q1" = "RankingsS&P100/Q1_Ranking_S&P100.csv",
-            "Q2" = "RankingsS&P100/Q2_Ranking_S&P100.csv", 
-            "Q3" = "RankingsS&P100/Q3_Ranking_S&P100.csv", 
-            "Q4" = "RankingsS&P100/Q4_Ranking_S&P100.csv", 
-            "Q5" = "RankingsS&P100/Q5_Ranking_S&P100.csv",
-            "Q6" = "RankingsS&P100/Q6_Ranking_S&P100.csv",
-            "Q8" = "RankingsS&P100/Q8_Ranking_S&P100.csv",
-            "Q12" = "RankingsS&P100/Q12_Ranking_S&P100.csv",
-            "Q20" = "RankingsS&P100/Q20_Ranking_S&P100.csv"
-    )  
-  }else  if(workingWith == "S&P500"){
-    switch (rankingToUse,
-            "Q1" = "RankingsS&P500/Q1_Ranking_S&P500.csv",
-            "Q2" = "RankingsS&P500/Q2_Ranking_S&P500.csv", 
-            "Q3" = "RankingsS&P500/Q3_Ranking_S&P500.csv", 
-            "Q4" = "RankingsS&P500/Q4_Ranking_S&P500.csv", 
-            "Q5" = "RankingsS&P500/Q5_Ranking_S&P500.csv",
-            "Q6" = "RankingsS&P500/Q6_Ranking_S&P500.csv",
-            "Q8" = "RankingsS&P500/Q8_Ranking_S&P500.csv",
-            "Q12" = "RankingsS&P500/Q12_Ranking_S&P500.csv",
-            "Q20" = "RankingsS&P500/Q20_Ranking_S&P500.csv"
-    ) 
-  }else  if(workingWith == "Crypto10"){
-    switch (rankingToUse,
-            "Q1" = "RankingsCrypto10/Q1_Ranking_Crypto10.csv",
-            "Q2" = "RankingsCrypto10/Q2_Ranking_Crypto10.csv", 
-            "Q3" = "RankingsCrypto10/Q3_Ranking_Crypto10.csv", 
-            "Q4" = "RankingsCrypto10/Q4_Ranking_Crypto10.csv", 
-           
-    ) 
+    rankingToUse = paste0("Rankings",workingWith, "/", rankingToUse, "_Ranking_", workingWith,".csv")
+    
   }else {
     stop("Must input a valid name in workingWith valiable!")
   }
@@ -147,6 +122,7 @@ getRankingOutputFile = function(rankingToUse)
           "Q4" = "4QRank", 
           "Q5" = "5QRank",
           "Q6" = "6QRank",
+          "Q7" = "7QRank",
           "Q8" = "8QRank",
           "Q12" = "12QRank",
           "Q20" = "20QRank"
