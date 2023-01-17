@@ -392,12 +392,6 @@ again.</p>
 <p>Other sources :</p>
 <p>S&amp;P - <a href="https://rapidapi.com/blog/best-stock-api/" class="uri">https://rapidapi.com/blog/best-stock-api/</a></p>
 <p>Crypto - <a href="https://coinmarketcap.com" class="uri">https://coinmarketcap.com</a></p>
-<p>We have created a benchmark for Crypto 10 with 10 components. The
-code weights the components based on market capitalization [MCAP]. The
-MCAP file data comes from <a href="https://coinmarketcap.com" class="uri">https://coinmarketcap.com</a>. For the current models the
-benchmark end point is March 2022. The user should update the
-Crypto10MCap.csv if the endDate parameter is changed from 2022-03-24 to
-another date.</p>
 <div id="r-generaterankingandportfolios" class="section level1">
 <h1>R-GenerateRankingAndPortfolios</h1>
 <hr />
@@ -413,15 +407,17 @@ another date.</p>
 <hr />
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>This Project is a collection of multiple R codes that does 3 things:
-downloads yahoo EOD data, generate rankings and create portfolios using
-the rankings. The portfolios are not re-balanced and are held for 1, 2,
-or 3 years. There are two main files, one for the generation of rankings
-and one for generating the portfolios using the ranking resulting from
-the first one. Both main files take as input a comma-separated values
-(CSV) file containing the EOD (End of day) price data of a group of
-symbols. A set of CSV files have been provided for S&amp;P100 and
-S&amp;P500.</p>
+<p>This Project is a collection of multiple R codes that does 4 things:
+<br> - downloads yahoo EOD data (DownloadYahooData.R)<br> - generates
+rankings (Main_GenerateRanking.R)<br> - creates portfolios using the
+rankings that don’t rebalance and are held for 1, 2, or 3 years.
+(Main_GeneratePortfolios.R)</br> - creates portfolios using the rankings
+that rebalance every year(Main_Generate_ExceptionalandRichIndexes.R) and
+run until the last date of the input CSV. </br> All main files take as
+input a comma-separated values (CSV) file containing the EOD (End of
+day) price data of a group of symbols. A set of CSV files have been
+provided for S&amp;P100, S&amp;P500, Crypto10, TSX60, BSE100 and
+Ind30.</p>
 <p><code>DownloadYahooData.R</code> Using existing public Yahoo API,
 this code will download Yahoo EOD data using a series of tickers given
 as input. It will output two csv files that will be use in
@@ -445,14 +441,14 @@ of days in a quarter that have EOD stocks price.</li>
 <li>quarters - a list or a number of the quarter the code should
 generate the ranking file for</li>
 <li>workingWith - the name of the product the code is running for (USE
-ONLY S&amp;P100 , S&amp;P500 or Crypto10)</li>
+ONLY S&amp;P100, S&amp;P500, Crypto10, TSX60, BSE100, Ind30)</li>
 <li>nameOfTheFileWithStockData - the input CSV file.</li>
 </ul>
 <p><code>Main_GeneratePortfolios.R</code></p>
-<p>This code will take as input one ranking file, the CSV with EOD data
-of the stocks, and a CSV file with EOD data of the benchmark. Using
-these 3 files the user can generate different types of Portfolios with
-symbols selected based on ranking and summary analysis on those
+<p>This code will take as input one or more ranking files, the CSV with
+EOD data of the stocks, and a CSV file with EOD data of the benchmark.
+Using these 3 files the user can generate different types of Portfolios
+with symbols selected based on ranking and summary analysis on those
 portfolios. Based on the ranking provided, the code will categorize all
 stocks as: * Value - if ranking is equal or below 20 i.e. bottom
 quintile (BQ) * Core - if ranking is between 20 and 80 i.e. rest
@@ -463,31 +459,66 @@ i.e. top and bottom quintile (TBQ), All (full basket) i.e. all quintiles
 (AQ). Each Portfolio created will be saved with the data for 1 year, 2
 years, and 3 years. Based on this data the following files will be
 created as well: Summary Table, Index Draw-down, Index Draw Down Curve
-plot, and Daily Return. If the input type is All (full basket) the code
-will generate an unequal weighted portfolio with value and growth having
-40% each and core only 20%. All other types will create equal weighted
-portfolios.</p>
+plot, and Daily Return.</p>
+<p>If the input type is All (full basket) the code will generate an
+unequal weighted portfolio with value and growth having 40% each and
+core only 20% in case of non Crypto Portfolios, value 20%, growth20%,
+core 60% in case of Crypto 10.</p>
+<p>All other types will create equal weighted portfolios.</p>
 <blockquote>
 <p>Input</p>
 </blockquote>
 <ul>
 <li>workingWith - the name of the product the code is running for (USE
-ONLY S&amp;P100, S&amp;P500 or Crypto10)</li>
-<li>symbolsTimeIndexfileName - the name of the CSV file containing the
-Stocks EOD data (“S&amp;P100TimeIndex.csv” , “S&amp;P500TimeIndex.csv”
-or “Crypto10TimeIndex.csv”)</li>
-<li>benchmarkTimeIndexFileName - the name of the CSV file containing the
-Benchmark EOD data (“S&amp;P100_Benchmark_Index.csv” ,
-“S&amp;P500Benchmark.csv” or “Crypto10_Benchmark_Index.csv”)</li>
-<li>minNumberOfSymbols - must be 100 for S&amp;P 100 , 500 for S&amp;P
-500 and 10 for Crypto10.<br />
-</li>
+ONLY S&amp;P100, S&amp;P500, Crypto10 , TSX60 , BSE100, Ind30)</li>
+<li>minNumberOfSymbols - must be - any number between 90 and 100 for
+S&amp;P 100 and BSE100 - any number between 485 and 500 for S&amp;P 500
+- 10 for Crypto10 - 60 for TSX60 - 30 for Ind30</li>
 <li>rankingToUse - will indicate what Ranking file to use. Must be a
-number between 1,2,3,4,5,6,8,12,20</li>
+number between 1,2,3,4,5,6,7,8,12,20</li>
 <li>type - what type of portfolio should the code generate. Choose
 between Value(BQ), Core(RQ), Growth(TQ), VG(TBQ), ALL(AQ) . For Crypto10
-only ALL must be run, otherwise the code will generate Porfolios with
+only ALL must be run, otherwise the code will generate Portfolios with
 just 2 or 3 symbols.</li>
+</ul>
+<p>Warning messages like</p>
+<p><em>Warning messages: 1: In
+GeneratePortfolioAndMPT(symbolsTimeIndexfileName,
+benchmarkTimeIndexFileName, : NAs introduced by coercion</em></p>
+<p>or</p>
+<p><em>There were 50 or more warnings (use warnings() to see the first
+50)</em></p>
+<p>can be ignored</p>
+<p><code>Main_Generate_ExceptionalandRichIndexes.R</code></p>
+<p>This code will take as input one or more ranking files, the CSV with
+EOD data of the stocks, and a CSV file with EOD data of the benchmark.
+Using these 3 files it will generate an unequal weighted portfolios with
+Value and Growth having 40% each and Core only 20%. Based on the ranking
+provided, the code will categorize all stocks as: * Value - if ranking
+is equal or below 20 i.e. bottom quintile (BQ) * Core - if ranking is
+between 20 and 80 i.e. rest quintiles ignoring top and bottom quintile
+(RQ) * Growth - if ranking is equal or above 80 i.e. top quintile (TQ)
+Each Portfolio will rebalance every year the stocks of Core and Growth
+and every 3 years the Value stocks. Depending on the dimension of the
+EOD dataset, the Portfolios will start every month and will run until
+the end of the dataset. The first starting month will be selected when
+the EOD dataset has trading data for a number of stocks equal to input
+variable “minNumberOfSymbols”. Based on this data the following files
+will be created as well: Summary Table, Index Draw-down, Index Draw Down
+Curve plot, and Daily Return.</p>
+<blockquote>
+<p>Input</p>
+</blockquote>
+<ul>
+<li>workingWith - the name of the product the code is running for (USE
+ONLY S&amp;P100, S&amp;P500, Crypto10, TSX60, BSE100, Ind30 )</li>
+<li>startDate - the date when the Index Portfolios should start
+(YYYY-mm-dd)</li>
+<li>startPortfoliosEvery - will be Day for Crypto Portfolios, because
+Crypto has less history, and Month for the S&amp;P100, S&amp;P500, TSX60
+, BSE100, Ind30</li>
+<li>rankingToUse - will indicate what Ranking file that takes 7
+quintiles to generate,and 3 for Crypto Portfolios</li>
 </ul>
 <p><code>Utils.R</code></p>
 <p>This file contains different functions for DateTime manipulation,
@@ -497,6 +528,8 @@ Reading/Writing from files, ranking functions</p>
 portfolios(in case of full basket) and a function for generating MPT
 Statistics</p>
 <p><code>Summary Code MPT Stats Functions.R</code></p>
+<p>Function for generating MPT Stats table</p>
+<p><code>Summary Code For Continuous Portfolios</code></p>
 <p>Function for generating MPT Stats table</p>
 <p><code>Drawdown Functions.R</code></p>
 <p>Function for generating the draw-down analysis</p>
@@ -523,15 +556,9 @@ install.packages(“ggplot2”) install.packages(“tidyquant”)</p>
 </div>
 <div id="input-files" class="section level1">
 <h1>Input files</h1>
-<p>For S&amp;P 100 * S&amp;P100TimeIndex.csv - End of day data starting
-from 1990 for S&amp;P 100 * S&amp;P100_Benchmark_Index.csv - End of day
-data for S&amp;P 100 Benchmark - OEX For S&amp;P 500 *
-S&amp;P500TimeIndex.csv - End of day data starting from 1990 for S&amp;P
-500 * S&amp;P500Benchmark.csv - End of day data for S&amp;P 500
-Benchmark - SPX</p>
-<p>Crypto10TimeIndex.csv - End of day data starting from 2014 for Crypto
-10 * Crypto10_Benchmark_Index.csv - Created using the MCap file for the
-10 stocks</p>
+<p>All input files will be generated using the script
+DownloadYahooData.R with one of the groups: S&amp;P100, S&amp;P500,
+Crypto10, TSX60, BSE100, Ind30</p>
 </div>
 <div id="how-to-run" class="section level1">
 <h1>How to Run</h1>
@@ -563,13 +590,11 @@ press
 Yahoo public API The tickers used in DownloadYahooData.R were the
 components of S&amp;P 500 and S&amp;P100 at the moment of writing this
 code in the last quarter of 2021.</p>
-<p>For Crypto 10 there isn’t a ready made benchmark with the 10 stocks.
-So the code is building a benchmark using the 10 crypto stocks and
-applying the same principle of Mcap weight as S&amp;P does and creates a
-benchmark Portfolio. The Mcap file data comes from <a href="https://coinmarketcap.com" class="uri">https://coinmarketcap.com</a> and has created March 2023.
-Mcap might be different at the time of running the code. An Mcap file
-updated should be created by the user if the endDate parameter is
-changed from 2022-03-24</p>
+<p>For Crypto 10 we used the <strong>Bitwise 10 Crypto Index Fund
+(BITW)</strong> data. Since Crypto markets trade 24/7 the data
+downloaded from Yahoo includes weekend dates, but BITW doesn’t .To make
+the code functional, weekend dates in the Crypto index have been filled
+with first previous day available.</p>
 </div>
 
 
