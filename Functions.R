@@ -799,16 +799,16 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
   
   for( i in symbolGuidList){
     if(any( is.na( symbolsTimeIndexValues[i]))){
-      
+
      # print(paste0("These symbols don't have data in time Index file ",i))
      # print(paste0("For Portfolio StartDate ", fromDate ," and ending in " , toDate))
       position = which(symbolGuidList == i)
       symbolGuidList <- symbolGuidList[- position]
-      
+
     }
   }
-  
-  
+
+
   
   
   #----------------Create Portfolio Values-------------------------------------------------------------------------------------------
@@ -836,7 +836,7 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
     for(i in seq(1,length(symbolsTimeIndexValues[,1]),1))  
     {
       suma = 0.0  # here will keep the sum of Symbols for each row.
-      
+    
       monthsSinceStart = elapsed.months(symbolsTimeIndexValues[i,1], symbolsTimeIndexValues[1,1])
       
       if( monthsSinceStart %in% (12*CGRebalanceIndicators)   &&  ( is.null(noOfRebalances) || !is.element(monthsSinceStart, noOfRebalances ))) 
@@ -893,9 +893,10 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
       dailyReturn <- (suma-previousPortfolioValue)/previousPortfolioValue*100
       previousPortfolioValue <- suma
       #print(paste0(symbolsTimeIndexValues[i,1], " - ", suma) )
+     
       if(!is.na(dailyReturn))
       {
-        portfolioDailyReturn<-rbind(portfolioDailyReturn, c( symbolsTimeIndexValues[i,1], formatC(as.numeric(dailyReturn), digits = 12, format = "f") , formatC(as.numeric(suma), digits = 12, format = "f"), convertDateToIndex(symbolsTimeIndexValues[i,1] )))
+           portfolioDailyReturn<-rbind(portfolioDailyReturn, c( symbolsTimeIndexValues[i,1], formatC(as.numeric(dailyReturn), digits = 12, format = "f") , formatC(as.numeric(suma), digits = 12, format = "f"), convertDateToIndex(symbolsTimeIndexValues[i,1] )))
       }
     }
   }

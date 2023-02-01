@@ -7,7 +7,7 @@ source("Utils.R")
 workingWith = "S&P100"
 
 
-if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Ind30")
+if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Indonesia30")
 {
   dataPointsFor1Quarter = 262/4 #minus weekends
   quarters <-list(1,2,3,4,5,6,7,8,12,20) 

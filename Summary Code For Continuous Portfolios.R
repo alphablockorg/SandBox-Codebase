@@ -53,9 +53,15 @@ SummaryCodeForContinuousRunningPortfolios = function(portfolioValues, benchmarkD
     indexedBench <- portfolio_benchmark[,c(1,3)]  #taking the data and the benchmark value at that data
     indexedBench[1,3] = 100  #adding one column for indexing
     
+    j=1
+    while(is.na(indexedBench[j,2]))
+    {
+      j = j+1
+    }
+    
     for(i in seq(1,dim(indexedBench)[1]-1,1))
     {
-      indexedBench[i+1,3]=as.numeric(indexedBench[1,3])/as.numeric(indexedBench[1,2])*as.numeric(indexedBench[i+1,2])           #calculates 100/bench(i)*bench(i+1)
+      indexedBench[i+1,3]=as.numeric(indexedBench[1,3])/as.numeric(indexedBench[j,2])*as.numeric(indexedBench[i+1,2])           #calculates 100/bench(i)*bench(i+1)
     }
     
     #---------------- Porfolio and Benchmark in one DataSet --------------------------------------------
@@ -310,56 +316,7 @@ SummaryCodeForContinuousRunningPortfolios = function(portfolioValues, benchmarkD
     write.csv(supermat,paste(portfolioName," Summary Table ",portfolioValues[,1][length(portfolioValues[,1])],".csv",sep=""), row.names = FALSE,  na = "")  
   }
   
-  ### PORTFOLIO VS BENCHMARK CHART
-  
-  {
-    
-   
-    
-    aaa<-portfolioValues 
-    #aaa=aaa[-which(duplicated(aaa[,1])),]
-    bbb<-benchmarkDataset 
-    bbb<-bbb[(dim(bbb)[1]-dim(aaa)[1]+1):dim(bbb)[1],1:2] 
-    bbb[1,3]=100 
-    for(i in seq(1,dim(bbb)[1]-1,1)){   
-      bbb[i+1,3]=as.numeric(bbb[1,3])/as.numeric(bbb[1,2])*as.numeric(bbb[i+1,2]) 
-    } 
-    m<-data.frame(matrix(NA,nrow=dim(aaa)[1],ncol=6))  
-    m[,1]<-aaa[,1] #dates go in 
-    m[,2]<-aaa[,2] 
-    m[,3]=bbb[,3] 
-    m[,4]=aaa[,2] 
-    m[,5]=c(0) 
-    m[,6]=bbb[,2] 
-    colnames(m)<-c("Date","Portfolio","Benchmark","Portfolio NonIndexed","Cash","Benchmark NonIndexed") 
-    
-    m[,1]<-as.Date(as.character(m[,1])) #sets the first columns to date format 
-    x<-as.xts(m[,2:6],order.by=m[,1])#converts the data to xts format 
-    k<-dim(x) #dimensions of x 
-    Portfolio<-data.frame(Date=m[,1],as.numeric(x[,1]),as.numeric(x[,2])) #data frame of portfolio=cash 
-    
-    library(ggplot2)
-   
-    if(!is.null(folder))
-    {
-      fileName = paste0(folder,portfolioName," and ",benchmarkName,"PORTFOLIO VS BENCHMARK CHART.png",sep="")
-    }else{
-      fileName = paste(portfolioName," and ",benchmarkName,"PORTFOLIO VS BENCHMARK CHART.png",sep="")
-    }
-    png(fileName, width=3000,height=1000)
-    
-    colnames(Portfolio)[2:3]<-c(portfolioName,benchmarkName)
-    f<-ggplot(data=Portfolio,aes(Date))+geom_line(aes(y=Portfolio[,2],col=colnames(Portfolio)[2]))+geom_line(aes(y=Portfolio[,3],col=colnames(Portfolio)[3]))+geom_abline(intercept = 1000000, slope = 0)
-    f<-f+xlab("Date")+ylab("Value")
-    f<-f+theme(axis.text=element_text(size=15), 
-               axis.title=element_text(size=15),
-               legend.text=element_text(size=18), legend.position = "bottom")
-    f<-f+scale_colour_manual(name="",breaks = c(colnames(Portfolio)[2],colnames(Portfolio)[3] ), values = c( "dodgerblue1","#E54B4B"))
-    #f<-f+ggplot()+geom_line(data=Portfolio,aes(x=Date,y=Cash,col="Cash"))
-    print(f)
-    
-    dev.off()
-  }
+
   
   #View(supermat)
   if(!is.null(folder))

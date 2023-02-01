@@ -50,9 +50,11 @@ This Project is a collection of multiple R codes that does 4 things: <br>
 - generates rankings (Main_GenerateRanking.R)<br>
 - creates portfolios using the rankings that don't rebalance and are held for 1, 2, or 3 years. (Main_GeneratePortfolios.R)</br>
 - creates portfolios using the rankings that rebalance every year(Main_Generate_ExceptionalandRichIndexes.R) and run until the last date of the input CSV. </br>
-All main files take as input a comma-separated values (CSV) file containing the EOD (End of day) price data of a group of symbols. A set of CSV files have been provided for S&P100, S&P500, Crypto10, TSX60, BSE100 and  Ind30.
+All main files take as input a comma-separated values (CSV) file containing the EOD (End of day) price data of a group of symbols. A set of CSV files have been provided for S&P100, S&P500, Crypto10, TSX60, BSE100 and  Indonesia30.
 
 `DownloadYahooData.R` Using existing public Yahoo API, this code will download Yahoo EOD data using a series of tickers given as input. It will output two csv files that will be use in Main_GenerateRanking.R and Main_GeneratePortfolios.R as input. One file will be the group EOD data for 30 years and one file will be the Benchmark of the Group EOD data for the same period
+
+! Because BSE100 data downloaded from Yahoo has a lot of missing data in the time series, we use a function of Fill Gaps (function can be found in Utils.R). This function will fill in the missing data with previous data that in not NA in the time series.
 
 `Main_GenerateRanking.R`
 
@@ -62,7 +64,7 @@ This code will take a CSV file containing Yahoo EOD stocks data as input and gen
 
 -   dataPointsFor1Quarter - a number representing the approximate number of days in a quarter that have EOD stocks price.
 -   quarters - a list or a number of the quarter the code should generate the ranking file for
--   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10, TSX60, BSE100, Ind30)
+-   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10, TSX60, BSE100, Indonesia30)
 -   nameOfTheFileWithStockData - the input CSV file.
 
 `Main_GeneratePortfolios.R`
@@ -75,13 +77,13 @@ All other types will create equal weighted portfolios.
 
 > Input
 
--   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10 , TSX60 , BSE100, Ind30)
+-   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10 , TSX60 , BSE100, Indonesia30)
 -   minNumberOfSymbols - must be 
         - any number between 90 and 100 for S&P 100 and BSE100
         - any number between 485 and 500 for S&P 500
         - 10 for Crypto10
         - 60 for TSX60
-        - 30 for Ind30
+        - 30 for Indonesia30
 -   rankingToUse - will indicate what Ranking file to use. Must be a number between 1,2,3,4,5,6,7,8,12,20
 -   type - what type of portfolio should the code generate. Choose between Value(BQ), Core(RQ), Growth(TQ), VG(TBQ), ALL(AQ) . For Crypto10 only ALL must be run, otherwise the code will generate Portfolios with just 2 or 3 symbols.
 
@@ -101,9 +103,9 @@ This code will take as input one or more ranking files, the CSV with EOD data of
 
 > Input
 
--   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10, TSX60, BSE100, Ind30 )
+-   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10, TSX60, BSE100, Indonesia30 )
 -   startDate - the date when the Index Portfolios should start (YYYY-mm-dd)
--   startPortfoliosEvery - will be Day for Crypto Portfolios, because Crypto has less history, and Month for the S&P100, S&P500, TSX60 , BSE100, Ind30
+-   startPortfoliosEvery - will be Day for Crypto Portfolios, because Crypto has less history, and Month for the S&P100, S&P500, TSX60 , BSE100, Indonesia30
 -   rankingToUse - will indicate what Ranking file that takes 7 quintiles to generate,and 3 for Crypto Portfolios
 
 `Utils.R`
@@ -143,7 +145,7 @@ Or run in console:
 install.packages("xts") install.packages("zoo") install.packages("dplyr") install.packages("lubridate") install.packages("ggplot2") install.packages("tidyquant")
 
 # Input files
-All input files will be generated using the script DownloadYahooData.R with one of the groups: S&P100, S&P500, Crypto10, TSX60, BSE100, Ind30
+All input files will be generated using the script DownloadYahooData.R with one of the groups: S&P100, S&P500, Crypto10, TSX60, BSE100, Indonesia30
 
 # How to Run
 

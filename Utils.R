@@ -105,7 +105,7 @@ createIfFolderDontExists = function(folderName)
 
 getRankingFileName = function(rankingToUse, workingWith)
 {
-  if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Ind30" || workingWith == "Crypto10")
+  if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Indonesia30" || workingWith == "Crypto10")
   {
     rankingToUse = paste0("Rankings",workingWith, "/", rankingToUse, "_Ranking_", workingWith,".csv")
     
@@ -187,4 +187,78 @@ generateRanking = function(dataSet, quarter,dataPointsFor1Quarter, fileNameRanki
   write.csv(Q_Ranking, fileNameRanking, row.names=FALSE)
   write.csv(Q_Returns, fileNameReturns, row.names=FALSE)
   print(paste0("Files saved for ", fileNameRanking))
+}
+
+
+#--------------------  Fill Gaps in TimeSeries -------------------------------------
+
+fillGapsInTimeIndex = function(timeSeriesDS)
+{
+  
+  fillGapsReturnTable <- matrix(nrow=dim(timeSeriesDS)[1])
+  i = 2 # first column should alwasy be the date
+  
+  #for each column, except first(Index)
+  for(j in seq(2, dim(timeSeriesDS)[2],1))
+  {
+    #build a pair of Index and SymbolGuid table and attachet to a commun one
+    indexInterval <- matrix(timeSeriesDS[,1])
+    one_symbol_timeIndex <-  matrix(timeSeriesDS[,j])
+    
+    
+    
+    fillGapsReturnTable <- cbind(fillGapsReturnTable, fillGapsInTimeIndex_OneSymbol(indexInterval, one_symbol_timeIndex, colnames(timeSeriesDS)[j] ) )
+    colnames(fillGapsReturnTable)[i+1] <- colnames(timeSeriesDS)[j]
+    colnames(fillGapsReturnTable)[i] <- c(colnames(timeSeriesDS)[1])
+    i<- i + 2
+    print(j)
+    
+  }
+  
+  #minus first column that was emplty
+  result <- data.frame(fillGapsReturnTable[,-1])
+  colnames(result) <- colnames(fillGapsReturnTable)[-1]
+  
+  result <- result[,c(1,seq(2,dim(result)[2],2))]
+  
+  return(result)
+  
+}
+
+fillGapsInTimeIndex_OneSymbol = function (indexInterval, one_symbol_timeIndex, symbolGuid )
+{
+  
+  one_symbol_timeIndex_gapsfilled <- matrix(nrow = dim(indexInterval)[1] ,ncol = 2)
+  # colnames(one_symbol_timeIndex_gapsfilled) <- c("Index", symbolGuid)
+  values <- na.omit(one_symbol_timeIndex)
+  firstFoundValue <- values[1,1]
+  firstFoundIndex <- which(!is.na(one_symbol_timeIndex))[1]
+  firstFoundIndex_IndexValue <-  indexInterval[firstFoundIndex,1]
+  j <- firstFoundIndex
+  
+  for(i in seq(1,dim(indexInterval)[1],1))
+  {
+ 
+      
+      if(is.na(one_symbol_timeIndex[i,1]) && i > firstFoundIndex )
+      {
+        
+        one_symbol_timeIndex_gapsfilled[i,1] <- indexInterval[i,1]
+        one_symbol_timeIndex_gapsfilled[i,2] <- one_symbol_timeIndex_gapsfilled[i-1,2]
+        
+      }
+      else
+      {
+        
+        one_symbol_timeIndex_gapsfilled[i,1] <- indexInterval[i,1]
+        one_symbol_timeIndex_gapsfilled[i,2] <- one_symbol_timeIndex[i,1]
+        
+      }    
+      
+    
+    
+  }
+  
+  return(one_symbol_timeIndex_gapsfilled)
+  
 }

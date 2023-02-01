@@ -17,7 +17,7 @@ source("Utils.R")
 source("Summary Code For Continuous Portfolios.R")
 source("Drawdown Function.R")
 
-#!!! choose between S&P100, S&P500, Crypto10 , TSX60" , "BSE100", "Ind30
+#!!! choose between S&P100, S&P500, Crypto10 , TSX60" , "BSE100", "Indonesia30
 #!! Only change Product name in workingWith and startDate
 workingWith = "S&P100"
 startDate = "2012-01-02"
