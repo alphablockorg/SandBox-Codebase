@@ -55,6 +55,7 @@ All main files take as input a comma-separated values (CSV) file containing the 
 `DownloadYahooData.R` Using existing public Yahoo API, this code will download Yahoo EOD data using a series of tickers given as input. It will output two csv files that will be use in Main_GenerateRanking.R and Main_GeneratePortfolios.R as input. One file will be the group EOD data for 30 years and one file will be the Benchmark of the Group EOD data for the same period
 
 ! Because BSE100 data downloaded from Yahoo has a lot of missing data in the time series, we use a function of Fill Gaps (function can be found in Utils.R). This function will fill in the missing data with previous data that in not NA in the time series.
+! The data for Indonesia 30 and it's index has been provided and doesn't need to be downloaded. The data coming from yahoo doesn't have proper multiplications and stock splits applied
 
 `Main_GenerateRanking.R`
 
