@@ -19,7 +19,7 @@ source("Drawdown Function.R")
 
 #!!! choose between S&P100, S&P500 or Crypto10
 #!! Only change Product name in workingWith
-workingWith = "Crypto10"
+workingWith = "Crypto30"
 
 #!!! choose between Value, Core, Growth, VG, ALL
 # VG means Value and Growth stocks , ALL means all stocks
@@ -57,7 +57,7 @@ if(workingWith == "S&P100")
   
   minNumberOfSymbols = 500
 
-  }else{
+  }else if(workingWith == "Crypto10"){
     #the name of the csv file containing the Stocks Time Index data
     symbolsTimeIndexfileName = "Crypto10TimeIndex.csv"
     
@@ -73,7 +73,37 @@ if(workingWith == "S&P100")
     minNumberOfSymbols = 10
     # measures are in quarters
     rankingToUse = c(1,2,3,4)
-}
+  }else if(workingWith == "India29") {
+  #the name of the csv file containing the Stocks Time Index data
+  symbolsTimeIndexfileName = "India29TimeIndex.csv"
+  #the name of the csv file containing the Benchmark Time Index data
+  benchmarkTimeIndexFileName = "India29_Benchmark_Index.csv"
+  #for naming purpose only , keep it suggestive to benchmark name
+  benchmark = "SOLMID.BO"
+  #this will influence the starting dates of the Portfolios, the P will only start when the input dataset with EOD data has values for all 100 symbols
+  minNumberOfSymbols = 28
+  
+  }else if(workingWith == "Crypto30"){
+    #the name of the csv file containing the Stocks Time Index data
+    symbolsTimeIndexfileName = "Crypto30TimeIndex.csv"
+    
+    #the name of the csv file containing the Benchmark Time Index data
+    benchmarkTimeIndexFileName = "Crypto30_Benchmark_Index.csv"
+    
+    #for naming purpose only , keep it suggestive to benchmark name
+    benchmark = "Crypto30_Index"
+    
+    #if(type == "ALL"){minNumberOfSymbols = 10}else{ minNumberOfSymbols = 9}
+    
+    if(type =="ALL"){
+      minNumberOfSymbols = 25
+    } else
+    {
+      minNumberOfSymbols = 10
+    }
+    # measures are in quarters
+    rankingToUse = c(1,2,3,4)
+  }
 
 #---------------------------------- Generate Portfolios and Stats -------------------------------------------------------
 
@@ -87,7 +117,7 @@ for(i in rankingToUse)
   folder = paste0("Q",i)
   folderMain = paste0(workingWith,"_",type)
   
-  if(workingWith != "Crypto10"){
+  if(workingWith != "Crypto10" && workingWith != "Crypto30"){
     GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
                             rankingFilesName, rankNameForOutputFileNotations,
                             folder, folderMain, type ,workingWith, "Month") 

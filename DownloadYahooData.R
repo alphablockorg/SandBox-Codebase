@@ -4,9 +4,9 @@ library(tidyquant)
 library(dplyr)
 source("Functions.R")
 
-workingWith ="S&P100"
+workingWith ="Crypto30"
 firstDate = as.Date( "1990-01-01")
-endDate = as.Date( "2023-01-13")
+endDate = as.Date( "2023-03-29")
 
 if(workingWith == "S&P500")
 {
@@ -33,6 +33,15 @@ if(workingWith == "S&P500")
   firstDate = as.Date( "2020-09-23")
   symbolsList <- c( "BTC-USD", "SOL-USD",  "BCH-USD"  , "MATIC-USD", "ALGO-USD"  ,"LINK-USD" , "ETH-USD"  , "LTC-USD"  , "ADA-USD"  , "AVAX-USD" )
   index_benchmark<- "BITW"
+}else if(workingWith == "Crypto30"){
+  
+  #crypto has less history, thus the starting point is when all  symbols have started trading.
+  firstDate = as.Date( "2020-09-23")
+  symbolsList <- c( "LTC-USD","ADA-USD","AAVE-USD","ALGO-USD","APT21794-USD","ATOM-USD","AVAX-USD","AXS-USD","BIT11221-USD","BUSD-USD","CHZ-USD","DAI-USD","DOGE-USD","ETC-USD",
+                    "FIL-USD","FLOW-USD","ICP-USD","LEO-USD","LUNc-USD","OKB-USD","SAND-USD","SHIB-USD","SOL-USD","THETA-USD","TON11419-USD","USDT-USD","VET-USD","XRP-USD","XTZ-USD","ZEC-USD")
+  
+                                                                                                                                                                       
+  index_benchmark<- "BITW"
 }
 
 
@@ -55,6 +64,9 @@ for(i in symbolsList )
                           auto.assign = FALSE)
       
       Y_data <- as.data.frame(as.matrix(Y_data))
+      
+     
+      Y_data <- Y_data[Y_data[,4] >0 ,]
       
       Y_data <- cbind(rownames(Y_data), Y_data[,4])
       

@@ -4,7 +4,7 @@ source("Utils.R")
 
 #choose between S&P100, S&P500 or Crypto10
 #!! Only change Product name
-workingWith = "S&P100"
+workingWith = "Crypto30"
 
 
 if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Indonesia30")

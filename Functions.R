@@ -145,7 +145,7 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
               #just for  summary code purpose...
               colnames(portfolioValues) <- c("Index", "TotalValue", "RemainingValue", "SymbolsValue")
               
-              if(workingWith == "Crypto10")
+              if(workingWith == "Crypto10" || workingWith == "Crypto30")
               {
                 #crypto offers 24/7 tranding. The Portfolios run in weekend but the Crypo10Index doesn't, so we will fill in the gaps with Friday data. 
                 benchmarkDataset_subset <- FillGapsInTimeIndex(portfolioValues, benchmarkDataset_subset)
@@ -389,6 +389,15 @@ GeneratePortfolioEqualWeighted_LoadFromFile_WithInputSymbols = function(fromDate
 }
 
 #----------------------Generate Portfolio UnEqual Weighted ----------
+# fromDate <- fromDate[i] 
+# toDate <- toDate[i]
+# value_symbolGuidList <- value_symbols
+# value_percentage <- value_weight
+# core_symbolGuidList<- core_symbols 
+# growth_symbolGuidList<- growth_symbols
+# growth_percentage <- growth_weight
+# timeIndexFileName <- symbolsTimeIndexfileName
+# fileAppendix <- paste0(folder,portfolioName)
 
 GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols = function(fromDate, toDate, 
                                                                           value_symbolGuidList, 
@@ -628,7 +637,7 @@ GenerateRebalancingPortfolioAndMPT <- function(symbolsTimeIndexfileName, benchma
   rankingDataset <- data.frame(read.csv(file =  rankingFilesName, sep=",",header=TRUE,stringsAsFactors=F, fileEncoding="utf-8", check.names=FALSE))
   
   #finding the first row in the ranking file where {minNumberOfSymbols} have values
-  if(workingWith == "Crypto10"){
+  if(workingWith == "Crypto10"|| workingWith == "Crypto30"){
     date =  firstRowWithEnoughSymbols( rankingDataset, minNumberOfSymbols)
   }else{
     date = startDate

@@ -105,7 +105,7 @@ createIfFolderDontExists = function(folderName)
 
 getRankingFileName = function(rankingToUse, workingWith)
 {
-  if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Indonesia30" || workingWith == "Crypto10")
+  if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Indonesia30" || workingWith == "Crypto10" || workingWith =="India29"|| workingWith == "Crypto30")
   {
     rankingToUse = paste0("Rankings",workingWith, "/", rankingToUse, "_Ranking_", workingWith,".csv")
     
