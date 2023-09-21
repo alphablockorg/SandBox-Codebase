@@ -104,6 +104,9 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
               portfolioName = paste0(fromDate[i],"_to_", toDate[i],"_",type,"Portfolio_", rankNameForOutputFileNotations)
               print(paste0("Generating ", type, "Portfolio for ", portfolioName))
              
+              
+              #------------------ generate Portfolios -------------------------------------------------
+              
              if(toupper(type) == "ALL")
                {
                   value_weight = 40
@@ -122,6 +125,459 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
                                                                                                   growth_weight,
                                                                                                   symbolsTimeIndexfileName, 
                                                                                                   paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL1")
+             {
+               value_weight = 10
+               growth_weight = 80
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL2")
+             {
+               value_weight = 20
+               growth_weight = 70
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL3")
+             {
+               value_weight = 30
+               growth_weight = 60
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName,
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL4")
+             {
+               value_weight = 40
+               growth_weight = 50
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL5")
+             {
+               value_weight = 50
+               growth_weight = 40
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL6")
+             {
+               value_weight = 60
+               growth_weight = 30
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL7")
+             {
+               value_weight = 70
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL8")
+             {
+               value_weight = 80
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL9")
+             {
+               value_weight = 10
+               growth_weight = 70
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL10")
+             {
+               value_weight = 20
+               growth_weight = 60
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL11")
+             {
+               value_weight = 30
+               growth_weight = 50
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL12")
+             {
+               value_weight = 40
+               growth_weight = 40
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL13")
+             {
+               value_weight = 50
+               growth_weight = 30
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL14")
+             {
+               value_weight = 60
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL15")
+             {
+               value_weight = 70
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName,
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL16")
+             {
+               value_weight = 10
+               growth_weight = 60
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL17")
+             {
+               value_weight = 20
+               growth_weight = 50
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL18")
+             {
+               value_weight = 30
+               growth_weight = 40
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL19")
+             {
+               value_weight = 40
+               growth_weight = 30
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL20")
+             {
+               value_weight = 50
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL21")
+             {
+               value_weight = 60
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL22")
+             {
+               value_weight = 10
+               growth_weight = 50
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL23")
+             {
+               value_weight = 20
+               growth_weight = 40
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL24")
+             {
+               value_weight = 30
+               growth_weight = 30
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL25")
+             {
+               value_weight = 40
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL26")
+             {
+               value_weight = 50
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL27")
+             {
+               value_weight = 10
+               growth_weight = 40
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName,
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL28")
+             {
+               value_weight = 20
+               growth_weight = 30
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL29")
+             {
+               value_weight = 30
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL30")
+             {
+               value_weight = 40
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL31")
+             {
+               value_weight = 10
+               growth_weight = 30
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL32")
+             {
+               value_weight = 20
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL33")
+             {
+               value_weight = 30
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL34")
+             {
+               value_weight = 10
+               growth_weight = 20
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+             }else if(toupper(type) == "ALL35")
+             {
+               value_weight = 20
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+             }else if(toupper(type) == "ALL36")
+             {
+               value_weight = 10
+               growth_weight = 10
+               portfolioValues <- GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], 
+                                                                                                 value_symbols, 
+                                                                                                 value_weight,
+                                                                                                 core_symbols, 
+                                                                                                 growth_symbols,
+                                                                                                 growth_weight,
+                                                                                                 symbolsTimeIndexfileName, 
+                                                                                                 paste0(folder,portfolioName))
+               
+               
              }else if(toupper(type) == "VG"){
                value_weight = 50
                growth_weight = 50
@@ -137,7 +593,7 @@ GeneratePortfolioAndMPT <- function(symbolsTimeIndexfileName, benchmarkTimeIndex
                #### Generates the Portfolio EqualWeighted#############
                portfolioValues <- GeneratePortfolioEqualWeighted_LoadFromFile_WithInputSymbols(fromDate[i], toDate[i], symbols, symbolsTimeIndexfileName, paste0(folder,portfolioName))
               }
-              
+              #------------------ generate portfolio summary file -------------------------------------------------
               
               portfolioValues <- as.data.frame(portfolioValues)
               #rearange the columns
@@ -389,11 +845,11 @@ GeneratePortfolioEqualWeighted_LoadFromFile_WithInputSymbols = function(fromDate
 }
 
 #----------------------Generate Portfolio UnEqual Weighted ----------
-# fromDate <- fromDate[i] 
+# fromDate <- fromDate[i]
 # toDate <- toDate[i]
 # value_symbolGuidList <- value_symbols
 # value_percentage <- value_weight
-# core_symbolGuidList<- core_symbols 
+# core_symbolGuidList<- core_symbols
 # growth_symbolGuidList<- growth_symbols
 # growth_percentage <- growth_weight
 # timeIndexFileName <- symbolsTimeIndexfileName
@@ -417,6 +873,7 @@ GeneratePortfolioUnEqualWeighted_LoadFromFile_WithInputSymbols = function(fromDa
   #get stocks EOD data for the interval needed to run the Portfolio
   symbolsTimeIndexValues <- fileTimeIndexValue[fileTimeIndexValue$Date >= fromDate & fileTimeIndexValue$Date <= toDate ,]
   
+  if(is.na(symbolsTimeIndexValues[dim(symbolsTimeIndexValues)[1],1])) { symbolsTimeIndexValues <-symbolsTimeIndexValues[-dim(symbolsTimeIndexValues)[1],]}
   #column rearange
   symbolGuidList_inFile <- colnames(symbolsTimeIndexValues)[2:dim(symbolsTimeIndexValues)[2]]
   symbolGuidList_inFile<- na.omit(symbolGuidList_inFile)
@@ -1107,3 +1564,288 @@ GenerateUnitsDataSet = function( timeIndexDataSet, rankingDataset, symbolGuidLis
   return(symbolPortfolioData)
   
 }
+
+#----------------------------------------- Functions for generating quintiles Portfolio with rebalance ---------------------------------------
+
+
+
+GenerateRebalancingPortfolioForQuintiles <- function(symbolsTimeIndexfileName, minNumberOfSymbols, rankingFilesName, 
+                                                     rankNameForOutputFileNotations, folder, folderMain, workingWith) 
+{
+  
+  folder <- paste0(folderMain,folder,"/")
+  #reading benchmark data form file
+  
+  createIfFolderDontExists(folder)
+  #reading ranking data from ranking file
+  rankingDataset <- data.frame(read.csv(file =  rankingFilesName, sep=",",header=TRUE,stringsAsFactors=F, fileEncoding="utf-8", check.names=FALSE))
+  
+  
+  date =  firstRowWithEnoughSymbols( rankingDataset, minNumberOfSymbols)
+  
+  
+  #run for at least 1 year
+  if( add.month(as.Date(date),1) < as.Date(rankingDataset[dim(rankingDataset)[1] -250,1]))
+  {
+    
+    #this will generate Portfolios starting every month
+    fromDate <-  seq(as.Date(date),as.Date(rankingDataset[dim(rankingDataset)[1] -250,1]), by = "month")
+    toDate <-  rankingDataset[dim(rankingDataset)[1],1]
+    
+    
+    fromDate <- as.character(fromDate)
+    toDate <- as.character(toDate)
+    
+    
+    
+     #for eaach Starting date in the vector willgenerate a Portfolio and Summary table
+    for(i  in seq(1,length(fromDate),1) )
+    {
+      
+      #portfolio generation
+      print(paste0("Generating Portfolio with strarting date: ",fromDate[i]))
+      batchName = paste0(fromDate[i],"_to_", toDate,"_", rankNameForOutputFileNotations)
+      
+      final_summary <- as.data.frame(NA)
+      
+      
+      quintiles = seq(1,100, 1)
+      quintileUp = 0
+      for(quintile in quintiles)
+      {
+        
+        while (is.na(rankingDataset[rankingDataset$Date == fromDate[i],1 ][1]))
+        {
+                 fromDate[i]= add.day(fromDate[i],1)
+        }
+        
+        portfolioName <- paste0( quintileUp,"-" ,quintile,"Quintile","_",batchName)
+        print(paste0("Generating Portfolio ", portfolioName))
+        
+        portfolioValues <- GeneratePortfolioEqualWeighted_WithRebalance(fromDate[i], toDate, 
+                                                                        rankingDataset,
+                                                                        symbolsTimeIndexfileName, 
+                                                                        paste0(folder,portfolioName), quintileUp, quintile)
+        
+        portfolioValues <- as.data.frame(portfolioValues)
+        
+        colnames(portfolioValues) <- c("Date", "DailyReturn",paste0("P",quintileUp,"-", quintile), "Index")
+        
+        columns = colnames(final_summary)
+        
+        final_summary <- cbind(final_summary,portfolioValues[,3])
+        colnames(final_summary) <- c(columns,paste0("P",quintileUp,"-", quintile))
+        
+        
+        quintileUp = quintile
+        
+        
+      }
+      final_summary[1] <- portfolioValues[1]
+      write.csv(final_summary, file = paste0(folder, "Portfolios_TotalValues_Summary_",batchName, ".csv"))
+    }
+  }
+  
+  
+  
+}
+
+
+
+GeneratePortfolioEqualWeighted_WithRebalance = function(fromDate, toDate, rankingDataset,
+                                                        symbolsTimeIndexfileName, 
+                                                        fileAppendix, quintileUp, quintileDown)
+{
+  
+  fileTimeIndexValue <- data.frame(read.csv(file = symbolsTimeIndexfileName, sep=",",header=TRUE,stringsAsFactors=F, fileEncoding="utf-8", check.names=FALSE))
+  symbolsTimeIndexValues <- fileTimeIndexValue[fileTimeIndexValue$Date >= fromDate ,]
+  
+  #column rearange
+  symbolGuidList <- colnames(symbolsTimeIndexValues)[2:dim(symbolsTimeIndexValues)[2]]
+  
+  for( i in symbolGuidList){
+    if(any( is.na( symbolsTimeIndexValues[i]))){
+      position = which(symbolGuidList == i)
+      symbolGuidList <- symbolGuidList[- position]
+    }
+  }
+  
+  if(quintileDown <= 2)
+  {
+    Ptype = "Value"
+  }else{
+    Ptype = "CoreOrGrowth"
+  }
+  
+  quintileStocks = GetQuintileStocks(rankingDataset, fromDate, quintileDown, quintileUp) 
+  
+  symbolPortfolioUnitsData <- GenerateUnitsDataSetEW( symbolsTimeIndexValues, quintileStocks, fromDate, 100)
+  
+  
+  symbolPortfolioUnitsData<- as.data.frame(symbolPortfolioUnitsData)
+  symbolPortfolioData<- cbind(fromDate, symbolPortfolioUnitsData)
+  colnames(symbolPortfolioData) <- c("Inception", colnames(symbolPortfolioUnitsData))
+  
+  portfolioDailyReturn <- matrix(ncol = 4)
+  previousPortfolioValue = 0.0
+  symbolUnitsFraction = 0.0
+  
+  colnames(portfolioDailyReturn)=c( "Date","DailyReturn", "TotalValue", "Index")
+  # value rebalance 3 years, growth and core 1 year relanace
+  
+  ValueRebalanceIndicator <-seq(3, 20,3)
+  CGRebalanceIndicators <- seq(1,20,1)
+  #CGRebalanceIndicators <- CGRebalanceIndicators[-ValueRebalanceIndicator]
+  
+  
+  # print(symbolPortfolioUnitsData)
+  
+  if(length(symbolsTimeIndexValues[,1]) > 0)
+  {
+    noOfRebalances = NULL
+    #----------------Create Portfolio Values-------------------------------------------------------------------------------------------
+    for(i in seq(1,length(symbolsTimeIndexValues[,1]),1))  
+    {
+      suma = 0.0  # here will keep the sum of Symbols for each row.
+      
+      monthsSinceStart = elapsed.months(symbolsTimeIndexValues[i,1], symbolsTimeIndexValues[1,1])
+      
+      if( ((Ptype == "CoreOrGrowth" && monthsSinceStart %in% (12*CGRebalanceIndicators)) || (Ptype == "Value" && monthsSinceStart %in% (12*ValueRebalanceIndicator)))  &&  ( is.null(noOfRebalances) || !is.element(monthsSinceStart, noOfRebalances ))) 
+      {
+        #reevaluate the symbols bin after every year
+        noOfRebalances <- c(noOfRebalances, monthsSinceStart)
+        
+        
+        #reselect stocks at rebalance time
+        quintileStocks = GetQuintileStocks(rankingDataset, symbolsTimeIndexValues[i,1], quintileDown, quintileUp) 
+        
+        symbolPortfolioUnitsData <- GenerateUnitsDataSetEW( symbolsTimeIndexValues, quintileStocks, symbolsTimeIndexValues[i,1], previousPortfolioValue)
+        
+        
+        symbolPortfolioUnitsData <- as.data.frame(symbolPortfolioUnitsData)
+        columnNames <- colnames(symbolPortfolioData)
+        symbolPortfolioData<- cbindX(symbolPortfolioData, as.matrix(symbolsTimeIndexValues[i,1]), as.matrix(symbolPortfolioUnitsData))
+        colnames(symbolPortfolioData) <- c(columnNames, paste0("Year",monthsSinceStart/12), colnames(symbolPortfolioUnitsData))
+        
+      
+        #print(symbolPortfolioUnitsData)
+        #print(paste0("i= " ,i))
+      }
+      
+      
+      for(j in seq(1,length(symbolsTimeIndexValues[1,]),1))
+      {
+        if(j>1 && colnames(symbolsTimeIndexValues[j]) %in% quintileStocks) # needed for dataservice -> && (typeof(symbolsTimeIndexValues[i,j]) == "character") # take only erery second element to be added
+        {
+          
+          symbolUnitsFraction = as.numeric(as.character(symbolPortfolioUnitsData[symbolPortfolioUnitsData$SymbolGuid == colnames(symbolsTimeIndexValues[j]),"UnitsFraction"]))
+          if(!is.na(symbolsTimeIndexValues[i,j]))
+          {
+            suma = suma + as.double(symbolsTimeIndexValues[i,j])* symbolUnitsFraction
+          }
+        }
+      }
+      #get Portfolio initial value
+      if(i == 1)
+      {
+        previousPortfolioValue = suma
+      }
+      
+      
+      dailyReturn <- (suma-previousPortfolioValue)/previousPortfolioValue*100
+      previousPortfolioValue <- suma
+      #print(paste0(symbolsTimeIndexValues[i,1], " - ", suma) )
+      
+      if(!is.na(dailyReturn))
+      {
+        portfolioDailyReturn<-rbind(portfolioDailyReturn, c( symbolsTimeIndexValues[i,1], formatC(as.numeric(dailyReturn), digits = 12, format = "f") , formatC(as.numeric(suma), digits = 12, format = "f"), convertDateToIndex(symbolsTimeIndexValues[i,1] )))
+      }
+    }
+  }
+  
+  
+  portfolioDailyReturn<-na.omit(portfolioDailyReturn)
+  
+  #-------------------------------------------------------Save to File Daily Return ---------------------------------------------------------------
+  print_portfolioDailyReturn <- as.data.frame(portfolioDailyReturn)
+  row.names(print_portfolioDailyReturn)<-NULL
+  filename = paste0(fileAppendix,"_DailyReturn",  ".csv")
+  write.csv2(print_portfolioDailyReturn , file = filename)
+  
+  print_symbolPortfolioData <-as.data.frame(symbolPortfolioData)
+  row.names(print_symbolPortfolioData)<-NULL
+  filename = paste0(fileAppendix, "_Components",  ".csv")
+  write.csv2(print_symbolPortfolioData , file = filename ,row.names = FALSE)
+  
+  return(portfolioDailyReturn)
+  
+}
+
+GenerateUnitsDataSetEW = function( symbolsTimeIndexValues,  symbolGuidList, evalDate, portfolioTotalValue)
+{
+  
+  
+  
+  #----------------Create the table of Symbols, their weight, portfolioSymbol.Value and number of units-------------------------------------------------------------------------------------------
+  #get the data only for symbols given as input in function
+  symbolsTimeIndexValuesOnDate <- symbolsTimeIndexValues[symbolsTimeIndexValues$Date == evalDate ,c("Date",symbolGuidList) ]
+  bin=""
+  
+  numberOfStocks = length(symbolGuidList)
+  oneSymbolWeight =  portfolioTotalValue/ numberOfStocks
+  
+  
+  symbolUnitFractionList <- list()
+  symbolList <- list()
+  
+  symbolPortfolioData <- matrix(ncol = 4)
+  colnames(symbolPortfolioData) <- c("Date", "SymbolGuid","SymbolTimeIndexValue","UnitsFraction")
+  
+  
+  
+  if(length(symbolsTimeIndexValuesOnDate[,1]) > 0)
+  {
+    for(i in seq(1,length(symbolsTimeIndexValuesOnDate[1,]),1))
+    {
+      if(i > 1)
+      {
+        
+        # set up INITIAL Portfolio Symbols UnitsFraction and PortfolioSymbolsValue
+        if(!is.na(symbolsTimeIndexValuesOnDate[1,i]))
+        {
+          symbolTimeIndexValue = as.double(symbolsTimeIndexValuesOnDate[1,i])
+          unitsFraction = oneSymbolWeight/ symbolTimeIndexValue
+          portfolioSymbolValue = unitsFraction * symbolTimeIndexValue
+          
+          symbolPortfolioData <- rbind(symbolPortfolioData, c(evalDate, colnames(symbolsTimeIndexValuesOnDate[i]), formatC(as.numeric(symbolTimeIndexValue), digits = 12, format = "f") , formatC(as.numeric(unitsFraction), digits = 12, format = "f")))
+          
+        }
+        
+      }
+    }
+    
+  }
+  
+  
+  symbolPortfolioData <- na.omit(symbolPortfolioData)
+  
+  
+  return(symbolPortfolioData)
+  
+}
+
+GetQuintileStocks <- function(rankingDataset, fromDate, quintileDown, quintileUp) {
+  startDateRanking = rankingDataset[rankingDataset$Date == fromDate,]
+  
+  quintileStocks_position = which( startDateRanking<= quintileDown & startDateRanking >  quintileUp)
+  quintileStocks = colnames(startDateRanking[,quintileStocks_position])
+  if("Date" %in% quintileStocks){ 
+    quintileStocks = quintileStocks[-1]
+  }
+  
+  return(quintileStocks)
+}
+
+
+
+
