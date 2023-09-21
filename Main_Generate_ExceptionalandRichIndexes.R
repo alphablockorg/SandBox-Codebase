@@ -49,6 +49,14 @@ if(workingWith == "Crypto10"){
   
   startPortfoliosEvery = "Day"
 }
+if(workingWith == "Crypto30"){
+  
+  minNumberOfSymbols = 30
+  # measures are in quarters
+  rankingToUse = 3
+  
+  startPortfoliosEvery = "Day"
+}
 #---------------------------------- Generate Rebalancing Portfolios and Stats -------------------------------------------------------
 
 
