@@ -34,16 +34,19 @@ SummaryCodeForContinuousRunningPortfolios = function(portfolioValues, benchmarkD
       }else{
         years <- running_months / 12
       }
+      running_years <- seq(1, years, 1)
     }else{
       months = running_months
       years = 0
       running_years = 0
     }
     
-    if(years >0 && years <= 4){running_years <- seq(1, years, 1)}
-    if(years > 4 && years <10){running_years <- c(1,2,3, 5)}
-    if(years >= 10 ){running_years <- c(1,2,3, 5, 10)}
+    # if(years >0 && years <= 4){running_years <- seq(1, years, 1)}
+    # if(years > 4 && years <10){running_years <- c(1,2,3, 5)}
+    # if(years >= 10 ){running_years <- c(1,2,3, 5, 10)}
+    # 
     
+   
     
     ### rescaling of the benchmark
     portfolio_benchmark<- inner_join(portfolioValues[,1:2], benchmarkDataset)
@@ -266,21 +269,25 @@ SummaryCodeForContinuousRunningPortfolios = function(portfolioValues, benchmarkD
         
         if(mm==length(your.numbers))
         {
-          #print("here at ploting")
-          if(!is.null(folder))
-          {
-            pdf(paste0(folder,portfolioName," and ",benchmarkName,"Draw down Curve.pdf",sep=""),width=7,height=5)
-          }else{
-            pdf(paste(portfolioName," and ",benchmarkName,"Draw down Curve.pdf",sep=""),width=7,height=5)  
-          }
+          #------------------------ Uncomment until  dev.off() for ploting-------------------------------
           
-          plot.ts(dabench[[2]],col=2,axes=F,main="Drawdown Plot",ylab="Drawdown Level",xlab="Time",ylim=c(min(min(dabench[[2]]),min(daport[[2]]))*(1+0.2),0))
-          lines(daport[[2]],col=4)
-          axis(2)
-          l=seq(1,nrow(portfolio2),20)
-          axis(1,at=l,labels=portfolio2[l,1],cex.axis=1)
-          legend("bottomleft",legend=c(portfolioName,benchmarkName),lty=c(1,1),lwd=c(2,2),col=c("blue","red"),bty="n",cex=1)
-          dev.off()
+          
+          # if(!is.null(folder))
+          # {
+          #   pdf(paste0(folder,portfolioName," and ",benchmarkName,"Draw down Curve.pdf",sep=""),width=7,height=5)
+          # }else{
+          #   pdf(paste(portfolioName," and ",benchmarkName,"Draw down Curve.pdf",sep=""),width=7,height=5)  
+          # }
+          # 
+          # plot.ts(dabench[[2]],col=2,axes=F,main="Drawdown Plot",ylab="Drawdown Level",xlab="Time",ylim=c(min(min(dabench[[2]]),min(daport[[2]]))*(1+0.2),0))
+          # lines(daport[[2]],col=4)
+          # axis(2)
+          # l=seq(1,nrow(portfolio2),20)
+          # axis(1,at=l,labels=portfolio2[l,1],cex.axis=1)
+          # legend("bottomleft",legend=c(portfolioName,benchmarkName),lty=c(1,1),lwd=c(2,2),col=c("blue","red"),bty="n",cex=1)
+          # dev.off()
+          #---------------------------------------------------------------------------------------------
+          
           dd=cbind(daport[[2]],dabench[[2]])
           colnames(dd)=c(portfolioName,benchmarkName)
           

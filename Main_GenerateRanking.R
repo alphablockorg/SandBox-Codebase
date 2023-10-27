@@ -4,7 +4,7 @@ source("Utils.R")
 
 #choose between S&P100, S&P500 or Crypto10
 #!! Only change Product name
-workingWith = "Crypto30"
+workingWith = "S&P500"
 
 
 if(workingWith == "S&P100" || workingWith == "S&P500" || workingWith == "TSX60" || workingWith == "BSE100" || workingWith == "Indonesia30")
@@ -29,7 +29,7 @@ dataSet <- as.data.frame(dataSet)
 
 for(quarter in quarters)
 {
-   generateRanking(dataSet, quarter, dataPointsFor1Quarter, fileNameRanking, fileNameReturns, workingWith)
+   generateRanking(dataSet, quarter, dataPointsFor1Quarter, workingWith)
 }
 #period measured in quarters
 

@@ -129,12 +129,14 @@ getRankingOutputFile = function(rankingToUse)
   )  
 }
 
-generateRanking = function(dataSet, quarter,dataPointsFor1Quarter, fileNameRanking, fileNameReturns, productName )
+generateRanking = function(dataSet, quarter,dataPointsFor1Quarter, productName, fileNameRanking = NULL, fileNameReturns= NULL )
 {
   folderToSaveRankings = paste0("Rankings", productName,"/")
   createIfFolderDontExists(folderToSaveRankings) # create the folder if it doesn't exist
-  fileNameRanking = paste0(folderToSaveRankings,"Q",quarter,"_Ranking_",productName,".csv")
-  fileNameReturns = paste0(folderToSaveRankings,"Q",quarter,"_Returns_",productName,".csv")
+  if(is.null(fileNameRanking))
+    fileNameRanking = paste0(folderToSaveRankings,"Q",quarter,"_Ranking_",productName,".csv")
+  if(is.null(fileNameReturns))
+    fileNameReturns = paste0(folderToSaveRankings,"Q",quarter,"_Returns_",productName,".csv")
   
   
   colNumbers = dim(dataSet)[2]

@@ -1254,7 +1254,7 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
                                                           value_percentage,
                                                           growth_percentage,
                                                           symbolsTimeIndexfileName, 
-                                                          fileAppendix)
+                                                          fileAppendix, core_top=NULL, core_bottom = NULL)
 {
   
   fileTimeIndexValue <- data.frame(read.csv(file = symbolsTimeIndexfileName, sep=",",header=TRUE,stringsAsFactors=F, fileEncoding="utf-8", check.names=FALSE))
@@ -1279,7 +1279,7 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
   
   #----------------Create Portfolio Values-------------------------------------------------------------------------------------------
   symbolPortfolioUnitsData <- GenerateUnitsDataSet( symbolsTimeIndexValues, rankingDataset, symbolGuidList,value_percentage,
-                                                   growth_percentage, fromDate, FALSE)
+                                                   growth_percentage, fromDate, FALSE, NULL, core_top ,core_bottom )
   symbolPortfolioUnitsData<- as.data.frame(symbolPortfolioUnitsData)
   symbolPortfolioData<- cbind(fromDate, symbolPortfolioUnitsData)
   colnames(symbolPortfolioData) <- c("Inception", colnames(symbolPortfolioUnitsData))
@@ -1292,7 +1292,7 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
   
   ValueRebalanceIndicator <-seq(3, 20,3)
   CGRebalanceIndicators <- seq(1,20,1)
-  CGRebalanceIndicators <- CGRebalanceIndicators[-ValueRebalanceIndicator]
+  #CGRebalanceIndicators <- CGRebalanceIndicators[-ValueRebalanceIndicator]
 
   
   if(length(symbolsTimeIndexValues[,1]) > 0)
@@ -1312,7 +1312,7 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
         timeIndexDataSet <- fileTimeIndexValue[fileTimeIndexValue$Date >= symbolsTimeIndexValues[i,1] & fileTimeIndexValue$Date <= toDate ,]
    
         symbolPortfolioUnitsData <- GenerateUnitsDataSet( timeIndexDataSet, rankingDataset, symbolGuidList,value_percentage,
-                                                         growth_percentage, symbolsTimeIndexValues[i,1], TRUE, symbolPortfolioUnitsData)
+                                                         growth_percentage, symbolsTimeIndexValues[i,1], TRUE, symbolPortfolioUnitsData, core_top,core_bottom)
         
         symbolPortfolioUnitsData <- as.data.frame(symbolPortfolioUnitsData)
         columnNames <- colnames(symbolPortfolioData)
@@ -1327,7 +1327,7 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
         noOfRebalances = c(noOfRebalances, monthsSinceStart)
         newTimeIndexForSelection <- fileTimeIndexValue[fileTimeIndexValue$Date >= symbolsTimeIndexValues[i,1] & fileTimeIndexValue$Date <= toDate ,]
         symbolPortfolioUnitsData <- GenerateUnitsDataSet(newTimeIndexForSelection, rankingDataset, symbolGuidList,value_percentage,
-                                                         growth_percentage, symbolsTimeIndexValues[i,1], FALSE, symbolPortfolioUnitsData)
+                                                         growth_percentage, symbolsTimeIndexValues[i,1], FALSE, symbolPortfolioUnitsData, core_top,core_bottom)
         symbolPortfolioUnitsData <- as.data.frame(symbolPortfolioUnitsData)
         columnNames <- colnames(symbolPortfolioData)
         symbolPortfolioData<- cbind(symbolPortfolioData, symbolsTimeIndexValues[i,1], symbolPortfolioUnitsData)
@@ -1386,13 +1386,16 @@ GeneratePortfolioUnEqualWeighted_WithRebalance = function(fromDate, toDate, rank
 
 #evalDate = symbolsTimeIndexValues[i,1]
 GenerateUnitsDataSet = function( timeIndexDataSet, rankingDataset, symbolGuidList, value_percentage,
-                                growth_percentage,evalDate, keepValue, oldSymbolPortfolioUnitsData= NULL)
+                                growth_percentage,evalDate, keepValue, oldSymbolPortfolioUnitsData = NULL, core_top = NULL, core_bottom = NULL)
 {
+ 
+  if( is.null(core_bottom)){core_bottom = 20}
+  if(is.null(core_top)){core_top = 80}
   
   core_percentage = 100 - value_percentage - growth_percentage
   
   rankingData <- as.data.frame(rankingDataset[rankingDataset$Date == evalDate,])
-  
+
   #in case that on the exact day we selected as the beginning of the Portfolio, there is no ranking data, we add days until we find a valid date with enough data in the ranking file
  
   while(dim(rankingData)[1]<1 && evalDate <= Sys.Date())
@@ -1412,19 +1415,20 @@ GenerateUnitsDataSet = function( timeIndexDataSet, rankingDataset, symbolGuidLis
   na_values_positions <-  which(is.na(rankingData))
   if(length(na_values_positions)>0){ rankingData<-rankingData[-na_values_positions]}
   
-  graterThan80 <- which(rankingData>= 80 )
+  graterThan80 <- which(rankingData>= core_top )
   growth_symbols <- colnames(rankingData)[graterThan80]
   
    if(!keepValue)
   {
-    between_20_80 <- which(rankingData< 80 & rankingData>20)
+    between_20_80 <- which(rankingData< core_top & rankingData>core_bottom)
     core_symbols <- colnames(rankingData)[between_20_80]
     
-    lessThan_20 <- which(rankingData<=20 )
+    lessThan_20 <- which(rankingData <= core_bottom )
     value_symbols <- colnames(rankingData)[lessThan_20]
    
   
   }else{
+    
     value_symbols <- as.character(oldSymbolPortfolioUnitsData[oldSymbolPortfolioUnitsData$Bin =="Value",1])
    
     position = which(growth_symbols %in%  value_symbols)
@@ -1449,7 +1453,7 @@ GenerateUnitsDataSet = function( timeIndexDataSet, rankingDataset, symbolGuidLis
   sumOfValueSymbols = 0
   sumOfCGSymbols = 0
   portfolioValue = 100
-  
+ 
   if(length(timeIndexDataSet[,1]) > 0 && !is.null(oldSymbolPortfolioUnitsData)){
     
    

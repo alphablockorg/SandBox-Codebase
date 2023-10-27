@@ -45,17 +45,11 @@ Crypto - <https://coinmarketcap.com>
 
 ## Introduction
 
-This Project is a collection of multiple R codes that does 4 things: <br>
-- downloads yahoo EOD data (DownloadYahooData.R)<br>
-- generates rankings (Main_GenerateRanking.R)<br>
-- creates portfolios using the rankings that don't rebalance and are held for 1, 2, or 3 years. (Main_GeneratePortfolios.R)</br>
-- creates portfolios using the rankings that rebalance every year(Main_Generate_ExceptionalandRichIndexes.R) and run until the last date of the input CSV. </br>
-All main files take as input a comma-separated values (CSV) file containing the EOD (End of day) price data of a group of symbols. A set of CSV files have been provided for S&P100, S&P500, Crypto10, TSX60, BSE100 and  Indonesia30.
+This Project is a collection of multiple R codes that does 4 things: <br> - downloads yahoo EOD data (DownloadYahooData.R)<br> - generates rankings (Main_GenerateRanking.R)<br> - creates portfolios using the rankings that don't rebalance and are held for 1, 2, or 3 years. (Main_GeneratePortfolios.R)</br> - creates portfolios using the rankings that rebalance every year(Main_Generate_ExceptionalandRichIndexes.R) and run until the last date of the input CSV. </br> All main files take as input a comma-separated values (CSV) file containing the EOD (End of day) price data of a group of symbols. A set of CSV files have been provided for S&P100, S&P500, Crypto10, TSX60, BSE100 and Indonesia30.
 
 `DownloadYahooData.R` Using existing public Yahoo API, this code will download Yahoo EOD data using a series of tickers given as input. It will output two csv files that will be use in Main_GenerateRanking.R and Main_GeneratePortfolios.R as input. One file will be the group EOD data for 30 years and one file will be the Benchmark of the Group EOD data for the same period
 
-! Because BSE100 data downloaded from Yahoo has a lot of missing data in the time series, we use a function of Fill Gaps (function can be found in Utils.R). This function will fill in the missing data with previous data that in not NA in the time series.
-! The data for Indonesia 30 and it's index has been provided and doesn't need to be downloaded. The data coming from yahoo doesn't have proper multiplications and stock splits applied
+! Because BSE100 data downloaded from Yahoo has a lot of missing data in the time series, we use a function of Fill Gaps (function can be found in Utils.R). This function will fill in the missing data with previous data that in not NA in the time series. ! The data for Indonesia 30 and it's index has been provided and doesn't need to be downloaded. The data coming from yahoo doesn't have proper multiplications and stock splits applied
 
 `Main_GenerateRanking.R`
 
@@ -79,14 +73,116 @@ All other types will create equal weighted portfolios.
 > Input
 
 -   workingWith - the name of the product the code is running for (USE ONLY S&P100, S&P500, Crypto10 , TSX60 , BSE100, Indonesia30)
--   minNumberOfSymbols - must be 
-        - any number between 90 and 100 for S&P 100 and BSE100
-        - any number between 485 and 500 for S&P 500
-        - 10 for Crypto10
-        - 60 for TSX60
-        - 30 for Indonesia30
+
+-   minNumberOfSymbols - must be - any number between 90 and 100 for S&P 100 and BSE100 - any number between 485 and 500 for S&P 500 - 10 for Crypto10 - 60 for TSX60 - 30 for Indonesia30
+
+-   generatePortfoliosWithRebalance - valid only if you generate with type="OnePortfolio". If TRUE it will generate Portfolios that do rebalance ( 3 years for Value and 1 year for Core and Growth)
+
 -   rankingToUse - will indicate what Ranking file to use. Must be a number between 1,2,3,4,5,6,7,8,12,20
--   type - what type of portfolio should the code generate. Choose between Value(BQ), Core(RQ), Growth(TQ), VG(TBQ), ALL(AQ) . For Crypto10 only ALL must be run, otherwise the code will generate Portfolios with just 2 or 3 symbols.
+
+-   type - what type of portfolio should the code generate.
+
+    Choose between
+
+    -   Value(BQ) - it will make Portfolios only with value symbols - with no rebalance
+
+    -   Core(RQ) - it will make Portfolios only with core symbols - with no rebalance
+
+    -   Growth(TQ) - it will make Portfolios only with growth symbols - with no rebalance
+
+    -   VG(TBQ) - it will make Portfolios only with value and growth symbols - with no rebalance
+
+    -   ALL(AQ) - it will make a VCG portfolio - with no rebalance
+
+        -   ALL1 - will generate P with value weight 10 and growth weight 80 - with no rebalance
+
+        -   ALL2 - will generate P with value weight 20 and growth weight 70 - with no rebalance
+
+        -   ALL3 - will generate P with value weight 30 and growth weight 60 - with no rebalance
+
+        -   ALL4 - will generate P with value weight 40 and growth weight 50 - with no rebalance
+
+        -   ALL5 - will generate P with value weight 50 and growth weight 40 - with no rebalance
+
+        -   ALL6 - will generate P with value weight 60 and growth weight 30 - with no rebalance
+
+        -   ALL7 - will generate P with value weight 70 and growth weight 20 - with no rebalance
+
+        -   ALL8 - will generate P with value weight 80 and growth weight 10 - with no rebalance
+
+        -   ALL9 - will generate P with value weight 10 and growth weight 70 - with no rebalance
+
+        -   ALL10 - will generate P with value weight 20 and growth weight 60 - with no rebalance
+
+        -   ALL11 - will generate P with value weight 30 and growth weight 50 - with no rebalance
+
+        -   ALL12 - will generate P with value weight 40 and growth weight 40 - with no rebalance
+
+        -   ALL13 - will generate P with value weight 50 and growth weight 30 - with no rebalance
+
+        -   ALL14 - will generate P with value weight 60 and growth weight 20 - with no rebalance
+
+        -   ALL15 - will generate P with value weight 70 and growth weight 10 - with no rebalance
+
+        -   ALL16 - will generate P with value weight 10 and growth weight 60 - with no rebalance
+
+        -   ALL17 - will generate P with value weight 20 and growth weight 50 - with no rebalance
+
+        -   ALL18 - will generate P with value weight 30 and growth weight 40 - with no rebalance
+
+        -   ALL19 - will generate P with value weight 40 and growth weight 30 - with no rebalance
+
+        -   ALL20 - will generate P with value weight 50 and growth weight 20 - with no rebalance
+
+        -   ALL21 - will generate P with value weight 60 and growth weight 10 - with no rebalance
+
+        -   ALL22 - will generate P with value weight 10 and growth weight 50 - with no rebalance
+
+        -   ALL23 - will generate P with value weight 20 and growth weight 40 - with no rebalance
+
+        -   ALL24 - will generate P with value weight 30 and growth weight 30 - with no rebalance
+
+        -   ALL25 - will generate P with value weight 40 and growth weight 20 - with no rebalance
+
+        -   ALL26 - will generate P with value weight 50 and growth weight 10 - with no rebalance
+
+        -   ALL27 - will generate P with value weight 10 and growth weight 40 - with no rebalance
+
+        -   ALL28 - will generate P with value weight 20 and growth weight 30 - with no rebalance
+
+        -   ALL29 - will generate P with value weight 30 and growth weight 20 - with no rebalance
+
+        -   ALL30 - will generate P with value weight 40 and growth weight 10 - with no rebalance
+
+        -   ALL31 - will generate P with value weight 10 and growth weight 30 - with no rebalance
+
+        -   ALL32 - will generate P with value weight 20 and growth weight 20 - with no rebalance
+
+        -   ALL33 - will generate P with value weight 30 and growth weight 10 - with no rebalance
+
+        -   ALL34 - will generate P with value weight 10 and growth weight 20 - with no rebalance
+
+        -   ALL35 - will generate P with value weight 20 and growth weight 10 - with no rebalance
+
+        -   ALL36 - will generate P with value weight 10 and growth weight 10 - with no rebalance
+
+    -   OnePortfolio - there are 2 options, to generate Portfolios without rebalance or with rebalance. In case OnePortfolio is TRUE, the next parameters have to be filled
+
+        -    fromDate- an array of startdates
+
+        -    toDate - one end date, usually until we have EOD data in the Symbols Time Index dataset
+
+        -   core_bottom - lower threshold for Core components to be selected
+
+        -   core_top - upper threshold for Core components to be selected
+
+        -   value_weight - how much weight the Value components will have
+
+        -   growth_weight - how much weight the Growth components will have. Core components weight will be calculated 100 - value_weight - growth_weight in all cases
+
+            ```         
+            - For Crypto10 only ALL must be run, otherwise the code will generate Portfolios with just 2 or 3 symbols.
+            ```
 
 Warning messages like
 
@@ -115,7 +211,11 @@ This file contains different functions for DateTime manipulation, Reading/Writin
 
 `Functions.R`
 
-Function for generating equal weighted portfolios, un equal weighted portfolios(in case of full basket) and a function for generating MPT Statistics
+Function for generating equal weighted portfolios, un equal weighted portfolios(in case of full basket) and rebalancing Portfolios
+
+Function2.R
+
+Functions for generating Portfolios from a given start date with or without rebalance.
 
 `Summary Code MPT Stats Functions.R`
 
@@ -133,9 +233,11 @@ Function for generating the draw-down analysis
 
 To run this code, you will need:
 
-     * [R version 3.6.1 or later](https://cloud.r-project.org/)
-     * [RStudio](https://www.rstudio.com/products/rstudio/download/)
-     
+```         
+ * [R version 3.6.1 or later](https://cloud.r-project.org/)
+ * [RStudio](https://www.rstudio.com/products/rstudio/download/)
+ 
+```
 
 # Installation
 
@@ -146,6 +248,7 @@ Or run in console:
 install.packages("xts") install.packages("zoo") install.packages("dplyr") install.packages("lubridate") install.packages("ggplot2") install.packages("tidyquant")
 
 # Input files
+
 All input files will be generated using the script DownloadYahooData.R with one of the groups: S&P100, S&P500, Crypto10, TSX60, BSE100, Indonesia30
 
 # How to Run

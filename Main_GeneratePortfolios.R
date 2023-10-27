@@ -12,21 +12,25 @@
 #                    Summary files
 ###
 
+source("Functions2.R")
 source("Functions.R")
 source("Utils.R")
 source("Summary Code MPT Stats Functions.R")
 source("Drawdown Function.R")
+source("Summary Code For Continuous Portfolios.R")
+
 
 #!!! choose between S&P100, S&P500 or Crypto10
 #!! Only change Product name in workingWith
-workingWith = "Crypto30"
+workingWith = "S&P500"
 
 #!!! choose between Value, Core, Growth, VG, ALL
 # VG means Value and Growth stocks , ALL means all stocks
-type="ALL"  #!!!! In Case of Crypto10 - run only ALL
+type="OnePortfolio"  #!!!! In Case of Crypto10 - run only ALL
 
 # measures are in quarters
-rankingToUse = c(1,2,3,4,5,6,8,12,20)
+rankingToUse = c(1,2,3,4,5,6,7,8,12,20)
+generatePortfoliosWithRebalance = TRUE
 
 #---------------------------------- PARAMETERS SETUP -------------------------------------------------------
 if(workingWith == "S&P100")
@@ -50,7 +54,7 @@ if(workingWith == "S&P100")
   symbolsTimeIndexfileName = "S&P500TimeIndex.csv"
   
   #the name of the csv file containing the Benchmark Time Index data
-  benchmarkTimeIndexFileName = "S&P500_Benchmark_Index"
+  benchmarkTimeIndexFileName = "S&P500_Benchmark_Index.csv"
   
   #for naming purpose only , keep it suggestive to benchmark name
   benchmark = "S&P500_Index"
@@ -105,6 +109,9 @@ if(workingWith == "S&P100")
     rankingToUse = c(1,2,3,4)
   }
 
+
+
+
 #---------------------------------- Generate Portfolios and Stats -------------------------------------------------------
 
 for(i in rankingToUse)
@@ -117,7 +124,22 @@ for(i in rankingToUse)
   folder = paste0("Q",i)
   folderMain = paste0(workingWith,"_",type)
   
-  if(workingWith != "Crypto10" && workingWith != "Crypto30"){
+  if(type=="OnePortfolio")
+  {
+    fromDate <- c(as.character(as.Date( "2020-01-06")),as.character(as.Date( "2021-01-04")),as.character(as.Date( "2022-01-03")),as.character(as.Date( "2023-01-03")))
+    toDate <- as.character(as.Date( "2023-10-24"))
+    core_bottom = c(0,0,0)
+    core_top = c(99,98,95)
+    value_weight = c(0,0,0,0,0,0,0)
+    growth_weight = c(50,90,80,70,30,20,10)
+    for(d in fromDate)
+    {
+        GeneratePortfolioAndMPT_V2(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,
+                                               rankingFilesName, rankNameForOutputFileNotations,
+                                               folder, folderMain, d, toDate, core_bottom, core_top, value_weight,growth_weight, generatePortfoliosWithRebalance) 
+    }
+  }
+  else if(workingWith != "Crypto10" && workingWith != "Crypto30"){
     GeneratePortfolioAndMPT(symbolsTimeIndexfileName, benchmarkTimeIndexFileName, benchmark,minNumberOfSymbols,
                             rankingFilesName, rankNameForOutputFileNotations,
                             folder, folderMain, type ,workingWith, "Month") 
